@@ -7,11 +7,17 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prettier:check": "prettier --config .prettierrc --check \"src/**/*.{ts,scss,html}\""
+    "prettier:check": "prettier --config .prettierrc --check"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,scss,html}": [
+      "npm run prettier:check"
+    ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier:check"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
     }
   },
   "private": true,
