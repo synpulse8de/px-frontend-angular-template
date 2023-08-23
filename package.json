@@ -43,7 +43,7 @@
     "src/**/*.{js,ts,scss,md,html,json}": [
       "prettier --write",
       "git add"
-    ]
+    ]⁄
   },
   "husky": {
     "hooks": {
