@@ -15,12 +15,6 @@
       "git add"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "ng lint && lint-staged",
-      "pre-push": "ng build --prod"
-    }
-  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",
