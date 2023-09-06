@@ -1,0 +1,23 @@
+<div class="header">
+  <nav class="navbar justify-content-between">
+    <ul class="nav-list">
+      <li><a routerLink="/lazy_1">Module 1</a></li>
+      <li><a routerLink="/lazy_2">Module 2</a></li>
+      <li><a routerlink="#">Services</a></li>
+      <li><a routerlink="#">Contact</a></li>
+    </ul>
+    <div class="align-self-center">
+      <button
+        class="button success"
+        *ngIf="!isLoggedIn(); else loggedIn"
+        (click)="login()"
+      >
+        Sign in
+      </button>
+      <ng-template #loggedIn>
+        <span class="me-3"> Hi {{ getUser() }} </span>
+        <button class="button warn" (click)="logout()">Sign out</button>
+      </ng-template>
+    </div>
+  </nav>
+</div>
