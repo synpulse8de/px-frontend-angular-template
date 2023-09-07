@@ -3,23 +3,34 @@ import { RouterModule, Routes } from '@angular/router'
 import { ErrorPageComponent } from './pages/error-page/error-page.component'
 import { NotFoundComponent } from './pages/not-found/not-found.component'
 import { AuthGuard } from './authentication/auth-guard'
+import { HomeComponent } from './pages/home/home.component'
 
 const routes: Routes = [
   {
-    path: 'lazy_1',
-    loadChildren: () =>
-      import('./features/example-feature-1/example-feature-1.module').then(
-        (m) => m.ExampleFeature1Module
-      ),
-    canActivate: [AuthGuard],
+    path: 'home',
+    component: HomeComponent,
   },
   {
-    path: 'lazy_2',
-    loadChildren: () =>
-      import('./features/example-feature-2/example-feature-2.module').then(
-        (m) => m.ExampleFeature2Module
-      ),
+    path: 'lazy-zone',
+    children: [
+      {
+        path: 'lazy_1',
+        loadChildren: () =>
+          import('./features/example-feature-1/example-feature-1.module').then(
+            (m) => m.ExampleFeature1Module
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'lazy_2',
+        loadChildren: () =>
+          import('./features/example-feature-2/example-feature-2.module').then(
+            (m) => m.ExampleFeature2Module
+          ),
+      },
+    ],
   },
+
   {
     path: 'not-found',
     component: NotFoundComponent,

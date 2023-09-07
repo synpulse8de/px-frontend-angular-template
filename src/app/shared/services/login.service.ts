@@ -13,7 +13,6 @@ export class LoginService {
   ) {}
 
   async login() {
-    console.log(this.router, this.a)
     await this.keycloak.login({
       redirectUri: window.location.origin + this.router.url,
     })

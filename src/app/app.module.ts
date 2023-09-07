@@ -13,6 +13,9 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component'
 import { NotFoundComponent } from './pages/not-found/not-found.component'
 import { initializeKeycloak } from './authentication/initializeKeycloak.factory'
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular'
+import { HomeComponent } from './pages/home/home.component'
+import { PieChartComponent } from './pages/home/pie-chart/pie-chart.component'
+import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -20,6 +23,8 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular'
     HeaderComponent,
     ErrorPageComponent,
     NotFoundComponent,
+    HomeComponent,
+    PieChartComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -32,6 +37,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular'
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
+    ReactiveFormsModule,
   ],
   providers: [
     {

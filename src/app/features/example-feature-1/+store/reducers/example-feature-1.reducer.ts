@@ -13,7 +13,7 @@ export interface ExampleFeature1State {
   error: any
 }
 
-const initialState: ExampleFeature1State = {
+export const initialState: ExampleFeature1State = {
   count: 0,
   loading: false,
   entries: [],
