@@ -1,12 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core'
+import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { debounceTime } from 'rxjs'
+import { Store } from '@ngrx/store'
+import { changePieChartValue } from '../../../shared/+store/actions/shared-feature.actions'
+import { selectPieChartValue } from '../../../shared/+store/selectors/shared-feature.selectors'
 
 @Component({
   selector: 'app-pie-chart',
@@ -14,36 +11,39 @@ import { FormControl, FormGroup } from '@angular/forms'
   styleUrls: ['./pie-chart.component.scss'],
 })
 export class PieChartComponent implements OnInit, AfterViewInit {
-  @ViewChild('pieChart') pieChart: ElementRef | undefined
-  @Input() chartData: { category: string; value: number }[] = []
-
-  protected percentageVariable = 80 // Set the default percentage
+  protected percentageVariable$ = this.store.select(selectPieChartValue) // Set the default percentage
   protected colorVariable: string = 'orange' // Set the default color
 
   protected pieFormGroup!: FormGroup
 
-  constructor() {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.pieFormGroup = this.initFormGroup()
+    this.percentageVariable$.subscribe(
+      (inputValue) =>
+        this.pieFormGroup.get('percentageInput')?.setValue(inputValue)
+    )
   }
 
   private initFormGroup() {
     return new FormGroup({
-      percentageInput: new FormControl(this.percentageVariable),
+      percentageInput: new FormControl(),
     })
   }
 
   private setFormGroupListeners() {
-    console.log(this.pieFormGroup.get('percentageInput'))
     this.pieFormGroup
       .get('percentageInput')
-      ?.valueChanges.subscribe((inputValue) => {
+      ?.valueChanges.pipe(debounceTime(100))
+      .subscribe((inputValue) => {
         const inputNumber = Number(inputValue)
         if (inputNumber && inputNumber <= 100 && inputNumber >= 0) {
-          this.percentageVariable = inputNumber
+          this.store.dispatch(
+            changePieChartValue({ pieChartValue: inputNumber })
+          )
         } else {
-          this.percentageVariable = 0
+          changePieChartValue({ pieChartValue: 0 })
         }
       })
   }

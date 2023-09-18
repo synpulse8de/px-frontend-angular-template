@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing'
 
 import { ExampleFeature1Service } from './example-feature1.service'
+import { AppModule } from '../../../app.module'
 
 describe('ExampleFeature1Service', () => {
   let service: ExampleFeature1Service
 
   beforeEach(() => {
-    TestBed.configureTestingModule({})
+    TestBed.configureTestingModule({
+      imports: [AppModule],
+    })
     service = TestBed.inject(ExampleFeature1Service)
   })
 

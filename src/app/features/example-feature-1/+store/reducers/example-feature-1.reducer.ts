@@ -11,6 +11,10 @@ export interface ExampleFeature1State {
   entries: MockData[]
   selectedEntries: string[]
   error: any
+  loadingStates: {
+    initLoading: boolean
+    changeUserDataLoading: boolean
+  }
 }
 
 export const initialState: ExampleFeature1State = {
@@ -19,50 +23,75 @@ export const initialState: ExampleFeature1State = {
   entries: [],
   selectedEntries: [],
   error: null,
+  loadingStates: {
+    initLoading: false,
+    changeUserDataLoading: false,
+  },
 }
 
 export const exampleFeature1Reducer = createReducer(
   initialState,
   on(increment, (state) => ({ ...state, count: state.count + 1 })),
   on(decrement, (state) => ({ ...state, count: state.count - 1 })),
-  on(ExampleFeature1Actions.loadMockDataEntries, (state) => ({
-    ...state,
-    loading: true,
-  })),
+
   on(
-    ExampleFeature1Actions.loadMockDataEntriesSuccess,
+    ExampleFeature1Actions.loadMockDataEntriesActions.loadMockDataEntries,
+    (state) => ({
+      ...state,
+      loadingStates: { ...state.loadingStates, ['initLoading']: true },
+    })
+  ),
+  on(
+    ExampleFeature1Actions.loadMockDataEntriesActions
+      .loadMockDataEntriesSuccess,
     (state, { mockDataEntries }) => ({
       ...state,
       entries: mockDataEntries,
-      loading: false,
+      loadingStates: { ...state.loadingStates, ['initLoading']: false },
     })
   ),
   on(
-    ExampleFeature1Actions.loadMockDataEntriesFailure,
+    ExampleFeature1Actions.loadMockDataEntriesActions
+      .loadMockDataEntriesFailure,
     (state: ExampleFeature1State, { error }) => ({
       ...state,
       error,
-      loading: false,
+      loadingStates: { ...state.loadingStates, ['initLoading']: false },
     })
   ),
-  on(ExampleFeature1Actions.addDataEntry, (state: ExampleFeature1State) => ({
-    ...state,
-    loading: true,
-  })),
+  on(
+    ExampleFeature1Actions.addDataEntryActions.addDataEntry,
+    (state: ExampleFeature1State) => ({
+      ...state,
+      loadingStates: {
+        ...state.loadingStates,
+        ['changeUserDataLoading']: true,
+      },
+    })
+  ),
   on(
     //TODO somehow Type recognized as Parameter, investigate
-    ExampleFeature1Actions.addDataEntrySuccess,
+    ExampleFeature1Actions.addDataEntryActions.addDataEntrySuccess,
     (state, { mockDataEntry }) => ({
       ...state,
       entries: [...state.entries, mockDataEntry],
-      loading: false,
+      loadingStates: {
+        ...state.loadingStates,
+        ['changeUserDataLoading']: false,
+      },
     })
   ),
-  on(ExampleFeature1Actions.addDataEntryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+  on(
+    ExampleFeature1Actions.addDataEntryActions.addDataEntryFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loadingStates: {
+        ...state.loadingStates,
+        ['changeUserDataLoading']: false,
+      },
+    })
+  ),
   on(ExampleFeature1Actions.addSelection, (state, { entryId }) => ({
     ...state,
     selectedEntries: [...state.selectedEntries, entryId],

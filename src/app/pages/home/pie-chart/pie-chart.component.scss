@@ -48,8 +48,6 @@
 .pie:after {
   inset: calc(50% - var(--b) / 2);
   background: var(--c);
-  transform: rotate(calc(var(--p) * 3.6deg))
-    translateY(calc(50% - var(--w) / 2));
 }
 .animate {
   animation: p 1s 0.5s both;
@@ -66,8 +64,4 @@
   from {
     --p: 0;
   }
-}
-
-body {
-  background: #ddd;
 }

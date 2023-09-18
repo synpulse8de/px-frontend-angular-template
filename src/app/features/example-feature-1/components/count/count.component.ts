@@ -5,6 +5,8 @@ import {
   decrement,
   increment,
 } from '../../+store/actions/example-feature-1.actions'
+import { selectCount } from '../../+store/selectors/example-feature-1.selectors'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'app-count',
@@ -12,15 +14,15 @@ import {
   styleUrls: ['./count.component.scss'],
 })
 export class CountComponent {
-  count$ = this.store.select((state) => state.count)
+  count$: Observable<number> = this.store.select(selectCount)
 
   constructor(private store: Store<ExampleFeature1State>) {}
 
-  onIncrement() {
+  public onIncrement(): void {
     this.store.dispatch(increment())
   }
 
-  onDecrement() {
+  public onDecrement(): void {
     this.store.dispatch(decrement())
   }
 }

@@ -5,17 +5,20 @@ import { Observable, of } from 'rxjs'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import {
   selectEntries,
-  selectLoading,
   selectSelectedEntries,
 } from '../../+store/selectors/example-feature-1.selectors'
 import {
-  addDataEntry,
+  addDataEntryActions,
   addSelection,
-  loadMockDataEntries,
+  loadMockDataEntriesActions,
   removeSelectedEntries,
   removeSelection,
   resetSelectedEntries,
 } from '../../+store/actions/example-feature-1.actions'
+import {
+  selectChangeUserDataLoadingState,
+  selectInitLoadingState,
+} from '../../+store/selectors/example-feature-1-loading.selectors'
 
 @Component({
   selector: 'app-my-customers',
@@ -26,7 +29,8 @@ export class MyCustomersComponent implements OnInit {
   constructor(private store: Store) {}
 
   protected entries: MockData[] | undefined = undefined
-  protected loadingState$: Observable<boolean> = of(false)
+  protected initLoadingState$: Observable<boolean> = of(false)
+  protected userDataLoadingState$: Observable<boolean> = of(false)
 
   skeletonPlaceholders: any[] = Array(5).fill({}) // Number of placeholders
   newPersonFormGroup: FormGroup = new FormGroup({})
@@ -34,19 +38,22 @@ export class MyCustomersComponent implements OnInit {
   private selectedEntries$ = this.store.select(selectSelectedEntries)
 
   ngOnInit(): void {
-    this.newPersonFormGroup = this.buildFormGroup()
+    this.newPersonFormGroup = this.initFormGroup()
 
     this.store.select(selectEntries).subscribe((entries: MockData[]) => {
-      if (entries.length) {
+      if (entries?.length) {
         this.entries = entries
       } else {
-        this.store.dispatch(loadMockDataEntries())
+        this.store.dispatch(loadMockDataEntriesActions.loadMockDataEntries())
       }
     })
-    this.loadingState$ = this.store.select(selectLoading)
+    this.initLoadingState$ = this.store.select(selectInitLoadingState)
+    this.userDataLoadingState$ = this.store.select(
+      selectChangeUserDataLoadingState
+    )
   }
 
-  protected generateRandomHex(length: number): string {
+  public generateRandomHex(length: number): string {
     const characters: string = '0123456789abcdef'
     let result = ''
 
@@ -58,7 +65,15 @@ export class MyCustomersComponent implements OnInit {
     return result
   }
 
-  addCustomer(): void {
+  public addCustomer(): void {
+    const newUser: MockData = this.initialiseNewUser()
+    this.store.dispatch(
+      addDataEntryActions.addDataEntry({ mockDataEntry: newUser })
+    )
+    this.newPersonFormGroup.reset()
+  }
+
+  private initialiseNewUser() {
     const randomHexValue: string = this.generateRandomHex(24)
     const newUser: MockData = {
       id: randomHexValue,
@@ -67,12 +82,10 @@ export class MyCustomersComponent implements OnInit {
       email: this.newPersonFormGroup.get('email')?.value,
     }
 
-    this.store.dispatch(addDataEntry({ mockDataEntry: newUser }))
-    this.newPersonFormGroup.reset()
-    console.log(newUser)
+    return newUser
   }
 
-  private buildFormGroup() {
+  private initFormGroup() {
     return new FormGroup({
       id: new FormControl({ value: '', disabled: true }),
       name: new FormControl('', Validators.required),

@@ -1,37 +1,26 @@
-import { createAction, props } from '@ngrx/store'
+import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
 import { MockData } from '../../../../shared/models/mock-data.model'
 
 export const increment = createAction('[Example Feature 1] Increment')
 export const decrement = createAction('[Example Feature 1] Decrement')
 
-export const addDataEntry = createAction(
-  '[Example Feature 1] Adding Data Entry',
-  props<{ mockDataEntry: MockData }>()
-)
+export const addDataEntryActions = createActionGroup({
+  source: 'Example Feature 1',
+  events: {
+    'Add Data Entry': props<{ mockDataEntry: MockData }>(),
+    'Add Data Entry Success': props<{ mockDataEntry: MockData }>(),
+    'Add Data Entry Failure': props<{ error: any }>(),
+  },
+})
 
-export const addDataEntrySuccess = createAction(
-  '[Example Feature 1] Adding Data Entry Success',
-  props<{ mockDataEntry: MockData }>()
-)
-
-export const addDataEntryFailure = createAction(
-  '[Example Feature 1] Adding Data Entry Failure',
-  props<{ error: any }>()
-)
-
-export const loadMockDataEntries = createAction(
-  '[Example Feature 1] Load Mock Data Entries'
-)
-
-export const loadMockDataEntriesSuccess = createAction(
-  '[Example Feature 1] Load Mock Data Entries Success',
-  props<{ mockDataEntries: MockData[] }>()
-)
-
-export const loadMockDataEntriesFailure = createAction(
-  '[Example Feature 1] Load Mock Data Entries Failure',
-  props<{ error: any }>()
-)
+export const loadMockDataEntriesActions = createActionGroup({
+  source: 'Example Feature 1',
+  events: {
+    'Load Mock Data Entries': emptyProps(),
+    'Load Mock Data Entries Success': props<{ mockDataEntries: MockData[] }>(),
+    'Load Mock Data Entries Failure': props<{ error: any }>(),
+  },
+})
 
 export const addSelection = createAction(
   '[Example Feature 1] Add selection',

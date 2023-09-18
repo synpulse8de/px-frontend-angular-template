@@ -17,11 +17,13 @@ export class HeaderComponent implements OnInit {
   private currentUser: KeycloakProfile = { firstName: '', lastName: '' }
 
   ngOnInit(): void {
-    this.keycloakService
-      .getKeycloakInstance()
-      .loadUserProfile()
-      .then((i) => (this.currentUser = i))
-      .catch((err) => console.log(err))
+    if (this.isLoggedIn()) {
+      this.keycloakService
+        .getKeycloakInstance()
+        .loadUserProfile()
+        .then((i) => (this.currentUser = i))
+        .catch((err) => console.log(err))
+    }
   }
 
   protected isLoggedIn(): boolean | undefined {
@@ -43,7 +45,7 @@ export class HeaderComponent implements OnInit {
     return ''
   }
 
-  logout(): void {
-    this.keycloakService.logout()
+  protected logout(): void {
+    this.keycloakService.logout('http://localhost:4200/home')
   }
 }

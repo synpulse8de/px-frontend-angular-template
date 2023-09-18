@@ -1,29 +1,35 @@
 <div class="card">
   <h3>My Customers</h3>
 
+  <p class="mt-0">
+    Here is a simple example of a list that interacts with the store. You can
+    remove and add Entries as you please. Everything you do will be visible
+    inside the Redux dev-tools
+  </p>
+
   <div class="d-flex flex-grow-1 flex-column">
     <div class="row mb-2">
       <div class="col-auto invisible"><input type="checkbox" disabled /></div>
-      <div class="col-2"><b>ID</b></div>
+      <div class="col"><b>ID</b></div>
       <div class="col-2"><b>Name</b></div>
       <div class="col-1"><b>Age</b></div>
-      <div class="col-2"><b>E-Mail</b></div>
+      <div class="col"><b>E-Mail</b></div>
     </div>
 
     <div *ngFor="let entry of entries" class="row pb-2">
       <div class="col-auto">
         <input type="checkbox" (click)="selectionToggle(entry, $event)" />
       </div>
-      <div class="col-2 overflow-ellipsis">{{ entry.id }}</div>
-      <div class="col-2">{{ entry.name }}</div>
+      <div class="col overflow-ellipsis">{{ entry.id }}</div>
+      <div class="col-2 overflow-ellipsis">{{ entry.name }}</div>
       <div class="col-1">{{ entry.age }}</div>
-      <div class="col-2">{{ entry.email }}</div>
+      <div class="col overflow-ellipsis">{{ entry.email }}</div>
     </div>
 
-    <div *ngIf="loadingState$ | async">
-      <div *ngFor="let _ of skeletonPlaceholders" class="row pb-2">
+    <div *ngIf="userDataLoadingState$ | async">
+      <div class="row pb-2">
         <div class="col-auto invisible"><input type="checkbox" disabled /></div>
-        <div class="col-2">
+        <div class="col">
           <div class="skeleton-placeholder"></div>
         </div>
         <div class="col-2">
@@ -32,7 +38,25 @@
         <div class="col-1">
           <div class="skeleton-placeholder"></div>
         </div>
+        <div class="col">
+          <div class="skeleton-placeholder"></div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="initLoadingState$ | async">
+      <div *ngFor="let _ of skeletonPlaceholders" class="row pb-2">
+        <div class="col-auto invisible"><input type="checkbox" disabled /></div>
+        <div class="col">
+          <div class="skeleton-placeholder"></div>
+        </div>
         <div class="col-2">
+          <div class="skeleton-placeholder"></div>
+        </div>
+        <div class="col-1">
+          <div class="skeleton-placeholder"></div>
+        </div>
+        <div class="col">
           <div class="skeleton-placeholder"></div>
         </div>
       </div>
@@ -42,7 +66,7 @@
       <div class="col-auto invisible">
         <input type="checkbox" disabled />
       </div>
-      <div class="col-2">
+      <div class="col">
         <input type="text" formControlName="id" />
       </div>
       <div class="col-2">
@@ -51,7 +75,7 @@
       <div class="col-1">
         <input type="text" formControlName="age" />
       </div>
-      <div class="col-2">
+      <div class="col">
         <input type="text" formControlName="email" />
       </div>
     </div>

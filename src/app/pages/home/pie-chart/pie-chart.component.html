@@ -1,12 +1,20 @@
-<div class="card" [formGroup]="pieFormGroup">
+<div class="card d-flex" [formGroup]="pieFormGroup">
   <h3>Statistics</h3>
-  <div
-    #pieChart
-    class="pie animate no-round"
-    [style]="'--p: ' + percentageVariable + '; --c: ' + colorVariable"
-  >
-    {{ percentageVariable }}%
+  <div>
+    <div
+      class="pie animate no-round"
+      [style]="
+        '--p: ' + (percentageVariable$ | async) + '; --c: ' + colorVariable
+      "
+    >
+      {{ percentageVariable$ | async }}%
+    </div>
   </div>
-
-  <input class="inputStyle" formControlName="percentageInput" type="number" />
+  <input
+    class="inputStyle"
+    formControlName="percentageInput"
+    type="number"
+    min="0"
+    max="100"
+  />
 </div>

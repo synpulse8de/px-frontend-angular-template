@@ -11,10 +11,10 @@ import {
   exampleFeature1Reducer,
 } from './+store/reducers/example-feature-1.reducer'
 import { HttpClientModule } from '@angular/common/http'
-import { AppModule } from '../../app.module'
 import { LoadingSpinnerComponent } from '../../shared/component/loading-spinner/loading-spinner.component'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MyCustomersComponent } from './components/my-customers/my-customers.component'
+import { PieChartShowcaseComponent } from './components/pie-chart-showcase/pie-chart-showcase.component'
 
 @NgModule({
   declarations: [
@@ -22,6 +22,7 @@ import { MyCustomersComponent } from './components/my-customers/my-customers.com
     CountComponent,
     LoadingSpinnerComponent,
     MyCustomersComponent,
+    PieChartShowcaseComponent,
   ],
   imports: [
     CommonModule,
@@ -34,5 +35,6 @@ import { MyCustomersComponent } from './components/my-customers/my-customers.com
     EffectsModule.forFeature([ExampleFeature1Effects]),
     ReactiveFormsModule,
   ],
+  exports: [LoadingSpinnerComponent],
 })
 export class ExampleFeature1Module {}

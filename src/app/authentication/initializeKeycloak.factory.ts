@@ -10,11 +10,8 @@ export function initializeKeycloak(keycloak: KeycloakService) {
         clientId: environment.KEYCLOAK_ID,
       },
       initOptions: {
-        // onLoad: 'check-sso',
-        // silentCheckSsoRedirectUri:
-        //   window.location.origin + '/assets/misc/silent-check-sso.html',
-        //       onLoad: 'login-required',
-        //       checkLoginIframe: false
+        checkLoginIframe: false,
+        onLoad: 'login-required',
       },
       shouldAddToken: (request) => {
         const { method, url } = request

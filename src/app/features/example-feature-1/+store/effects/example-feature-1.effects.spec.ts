@@ -4,12 +4,8 @@ import { Actions } from '@ngrx/effects'
 import { of, throwError } from 'rxjs'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import {
-  addDataEntry,
-  addDataEntryFailure,
-  addDataEntrySuccess,
-  loadMockDataEntries,
-  loadMockDataEntriesFailure,
-  loadMockDataEntriesSuccess,
+  addDataEntryActions,
+  loadMockDataEntriesActions,
 } from '../actions/example-feature-1.actions'
 import { ExampleFeature1Effects } from './example-feature-1.effects'
 import { ExampleFeature1Service } from '../../services/example-feature1.service'
@@ -41,26 +37,32 @@ describe('ExampleFeature1Effects', () => {
       email: 'mail@mail.com',
     }
 
-    const action = addDataEntry({ mockDataEntry })
+    const action = addDataEntryActions.addDataEntry({ mockDataEntry })
 
     actions$ = of(action)
     spyOn(service, 'addDataEntry').and.returnValue(of(mockDataEntry))
 
     effects.addDataEntry$.subscribe((resultAction) => {
-      expect(resultAction).toEqual(addDataEntrySuccess({ mockDataEntry }))
+      expect(resultAction).toEqual(
+        addDataEntryActions.addDataEntrySuccess({ mockDataEntry })
+      )
     })
   })
 
   it('should dispatch addDataEntryFailure on failed addDataEntry', () => {
     const error = 'Error adding data entry'
 
-    const action = addDataEntry({ mockDataEntry: {} as any })
+    const action = addDataEntryActions.addDataEntry({
+      mockDataEntry: {} as any,
+    })
 
     actions$ = of(action)
     spyOn(service, 'addDataEntry').and.returnValue(throwError(() => error))
 
     effects.addDataEntry$.subscribe((resultAction) => {
-      expect(resultAction).toEqual(addDataEntryFailure({ error }))
+      expect(resultAction).toEqual(
+        addDataEntryActions.addDataEntryFailure({ error })
+      )
     })
   })
 
@@ -69,14 +71,16 @@ describe('ExampleFeature1Effects', () => {
       { id: '1', name: 'Entry 1', age: 10, email: 'mail@mail.com' },
     ]
 
-    const action = loadMockDataEntries()
+    const action = loadMockDataEntriesActions.loadMockDataEntries()
 
     actions$ = of(action)
     spyOn(service, 'loadMockData').and.returnValue(of(mockDataEntries))
 
     effects.loadExampleFeature2s$.subscribe((resultAction) => {
       expect(resultAction).toEqual(
-        loadMockDataEntriesSuccess({ mockDataEntries })
+        loadMockDataEntriesActions.loadMockDataEntriesSuccess({
+          mockDataEntries,
+        })
       )
     })
   })
@@ -84,13 +88,15 @@ describe('ExampleFeature1Effects', () => {
   it('should dispatch loadMockDataEntriesFailure on failed loadMockDataEntries', () => {
     const error = 'Error loading data'
 
-    const action = loadMockDataEntries()
+    const action = loadMockDataEntriesActions.loadMockDataEntries()
 
     actions$ = of(action)
     spyOn(service, 'loadMockData').and.returnValue(throwError(() => error))
 
     effects.loadExampleFeature2s$.subscribe((resultAction) => {
-      expect(resultAction).toEqual(loadMockDataEntriesFailure({ error }))
+      expect(resultAction).toEqual(
+        loadMockDataEntriesActions.loadMockDataEntriesFailure({ error })
+      )
     })
   })
 })

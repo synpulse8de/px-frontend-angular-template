@@ -4,23 +4,23 @@ import {
   ExampleFeature1State,
 } from '../reducers/example-feature-1.reducer'
 
-export const getExample2State = createFeatureSelector<ExampleFeature1State>(
+export const getExample1State = createFeatureSelector<ExampleFeature1State>(
   EXAMPLE_FEATURE_1_FEATURE_KEY
 )
 
+export const selectCount = createSelector(
+  getExample1State,
+  (state: ExampleFeature1State) => state.count
+)
+
 export const selectEntries = createSelector(
-  getExample2State,
+  getExample1State,
   (state: ExampleFeature1State) => state.entries
 )
 
 export const selectSelectedEntries = createSelector(
-  getExample2State,
+  getExample1State,
   (state: ExampleFeature1State) => state.selectedEntries
-)
-
-export const selectLoading = createSelector(
-  getExample2State,
-  (state: ExampleFeature1State) => state.loading
 )
 
 export const selectEntriesFilteredByName = (searchRequest: string) =>

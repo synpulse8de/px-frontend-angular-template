@@ -1,6 +1,14 @@
-<div>
-  <h2>Example Count Feature 1</h2>
+<div class="card">
+  <h3>Basic Count Feature</h3>
+  <p>
+    install the Redux dev-tools and open your development console to see what is
+    happening when you press the buttons
+  </p>
   <p>Count: {{ count$ | async }}</p>
-  <button (click)="onIncrement()">Increment</button>
-  <button (click)="onDecrement()">Decrement</button>
+  <div class="d-flex">
+    <button class="button success me-2" (click)="onIncrement()">
+      Increment
+    </button>
+    <button class="button warn" (click)="onDecrement()">Decrement</button>
+  </div>
 </div>

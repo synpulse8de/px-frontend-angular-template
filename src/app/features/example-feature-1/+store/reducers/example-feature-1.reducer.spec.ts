@@ -5,13 +5,9 @@ import {
 } from './example-feature-1.reducer'
 import { fakeAsync, TestBed } from '@angular/core/testing'
 import {
-  addDataEntry,
-  addDataEntryFailure,
-  addDataEntrySuccess,
+  addDataEntryActions,
   addSelection,
-  loadMockDataEntries,
-  loadMockDataEntriesFailure,
-  loadMockDataEntriesSuccess,
+  loadMockDataEntriesActions,
   removeSelectedEntries,
   removeSelection,
   resetSelectedEntries,
@@ -26,6 +22,10 @@ describe('Example Feature 1 Reducer', () => {
     entries: [],
     selectedEntries: [],
     error: null,
+    loadingStates: {
+      initLoading: false,
+      changeUserDataLoading: false,
+    },
   }
 
   beforeEach(() => {
@@ -37,10 +37,10 @@ describe('Example Feature 1 Reducer', () => {
   })
 
   it('should load mock data entries', fakeAsync(() => {
-    const action = loadMockDataEntries()
+    const action = loadMockDataEntriesActions.loadMockDataEntries
     const state = exampleFeature1Reducer(initialState, action)
 
-    expect(state.loading).toBeTrue()
+    expect(state.loadingStates.initLoading).toBeTrue()
   }))
 
   it('should load mock data entries successfully', () => {
@@ -48,20 +48,24 @@ describe('Example Feature 1 Reducer', () => {
       { id: '1', name: 'Entry 1', age: 10, email: 'mail@mail.com' },
     ]
 
-    const action = loadMockDataEntriesSuccess({ mockDataEntries })
+    const action = loadMockDataEntriesActions.loadMockDataEntriesSuccess({
+      mockDataEntries,
+    })
     const state = exampleFeature1Reducer(initialState, action)
 
     expect(state.entries).toEqual(mockDataEntries)
-    expect(state.loading).toBeFalse()
+    expect(state.loadingStates.initLoading).toBeFalse()
   })
 
   it('should handle load mock data entries failure', () => {
     const error = 'Error loading data'
-    const action = loadMockDataEntriesFailure({ error })
+    const action = loadMockDataEntriesActions.loadMockDataEntriesFailure({
+      error,
+    })
     const state = exampleFeature1Reducer(initialState, action)
 
     expect(state.error).toEqual(error)
-    expect(state.loading).toBeFalse()
+    expect(state.loadingStates.initLoading).toBeFalse()
   })
 
   it('should add data entry', () => {
@@ -72,10 +76,10 @@ describe('Example Feature 1 Reducer', () => {
       email: 'mail@mail.com',
     }
 
-    const action = addDataEntry({ mockDataEntry })
+    const action = addDataEntryActions.addDataEntry({ mockDataEntry })
     const state = exampleFeature1Reducer(initialState, action)
 
-    expect(state.loading).toBeTrue()
+    expect(state.loadingStates.changeUserDataLoading).toBeTrue()
   })
 
   it('should add data entry successfully', () => {
@@ -86,20 +90,20 @@ describe('Example Feature 1 Reducer', () => {
       email: 'mail@mail.com',
     }
 
-    const action = addDataEntrySuccess({ mockDataEntry })
+    const action = addDataEntryActions.addDataEntrySuccess({ mockDataEntry })
     const state = exampleFeature1Reducer(initialState, action)
 
     expect(state.entries).toContain(mockDataEntry)
-    expect(state.loading).toBeFalse()
+    expect(state.loadingStates.changeUserDataLoading).toBeFalse()
   })
 
   it('should handle add data entry failure', () => {
     const error = 'Error adding data entry'
-    const action = addDataEntryFailure({ error })
+    const action = addDataEntryActions.addDataEntryFailure({ error })
     const state = exampleFeature1Reducer(initialState, action)
 
     expect(state.error).toEqual(error)
-    expect(state.loading).toBeFalse()
+    expect(state.loadingStates.changeUserDataLoading).toBeFalse()
   })
 
   it('should add selection', () => {

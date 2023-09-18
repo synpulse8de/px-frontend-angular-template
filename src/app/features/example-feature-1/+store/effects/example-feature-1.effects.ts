@@ -3,7 +3,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { of } from 'rxjs'
 import { catchError, concatMap, map } from 'rxjs/operators'
 import { ExampleFeature1Service } from '../../services/example-feature1.service'
-import * as ExampleFeature1Actions from '../../../example-feature-1/+store/actions/example-feature-1.actions'
+import {
+  addDataEntryActions,
+  loadMockDataEntriesActions,
+} from '../actions/example-feature-1.actions'
 
 @Injectable()
 export class ExampleFeature1Effects {
@@ -14,14 +17,14 @@ export class ExampleFeature1Effects {
 
   addDataEntry$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ExampleFeature1Actions.addDataEntry),
+      ofType(addDataEntryActions.addDataEntry),
       concatMap((action) =>
         this.exampleFeature1Service.addDataEntry(action.mockDataEntry).pipe(
           map((mockDataEntry) =>
-            ExampleFeature1Actions.addDataEntrySuccess({ mockDataEntry })
+            addDataEntryActions.addDataEntrySuccess({ mockDataEntry })
           ),
           catchError((error) =>
-            of(ExampleFeature1Actions.addDataEntryFailure({ error }))
+            of(addDataEntryActions.addDataEntryFailure({ error }))
           )
         )
       )
@@ -30,44 +33,19 @@ export class ExampleFeature1Effects {
 
   loadExampleFeature2s$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ExampleFeature1Actions.loadMockDataEntries),
+      ofType(loadMockDataEntriesActions.loadMockDataEntries),
       concatMap(() =>
         this.exampleFeature1Service.loadMockData().pipe(
           map((mockDataEntries) =>
-            ExampleFeature1Actions.loadMockDataEntriesSuccess({
+            loadMockDataEntriesActions.loadMockDataEntriesSuccess({
               mockDataEntries,
             })
           ),
           catchError((error) =>
-            of(ExampleFeature1Actions.loadMockDataEntriesFailure({ error }))
+            of(loadMockDataEntriesActions.loadMockDataEntriesFailure({ error }))
           )
         )
       )
     )
   })
-
-  // increment$ = createEffect(() =>
-  //     this.actions$.pipe(
-  //         ofType(increment),
-  //         mergeMap((action) => {
-  //             this.exampleFeature1Service.updateQuestionnaire().pipe(
-  //                     // map((response) => ({ response })),
-  //                     // catchError((err) => of(getTableDataFailure({ error: err })))
-  //                 )
-  //             // Simulate an async operation here if needed
-  //         }),
-  //         catchError(() => of()) // Handle errors if needed
-  //     )
-  // );
-
-  // decrement$ = createEffect(() =>
-  //     this.actions$.pipe(
-  //         ofType(decrement),
-  //         mergeMap(() => {
-  //             // Simulate an async operation here if needed
-  //             return of(); // Return an observable with any additional actions if necessary
-  //         }),
-  //         catchError(() => of()) // Handle errors if needed
-  //     )
-  // );
 }

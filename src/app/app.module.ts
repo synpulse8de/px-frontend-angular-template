@@ -16,6 +16,9 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular'
 import { HomeComponent } from './pages/home/home.component'
 import { PieChartComponent } from './pages/home/pie-chart/pie-chart.component'
 import { ReactiveFormsModule } from '@angular/forms'
+import { SharedFeatureEffects } from './shared/+store/effects/shared-feature.effects'
+import { sharedFeature } from './shared/+store/reducers/shared-feature.reducer'
+import { ExampleFeature1Module } from './features/example-feature-1/example-feature-1.module'
 
 @NgModule({
   declarations: [
@@ -32,12 +35,15 @@ import { ReactiveFormsModule } from '@angular/forms'
     KeycloakAngularModule,
     HttpClientModule,
     StoreModule.forRoot({}),
+    StoreModule.forFeature(sharedFeature.name, sharedFeature.reducer),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([]),
+    EffectsModule.forFeature([SharedFeatureEffects]),
     ReactiveFormsModule,
+    ExampleFeature1Module,
   ],
   providers: [
     {

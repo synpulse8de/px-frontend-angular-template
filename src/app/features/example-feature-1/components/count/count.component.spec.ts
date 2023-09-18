@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { CountComponent } from './count.component'
+import { AppModule } from '../../../../app.module'
 
 describe('CountComponent', () => {
   let component: CountComponent
@@ -8,6 +9,7 @@ describe('CountComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [CountComponent],
     })
     fixture = TestBed.createComponent(CountComponent)
