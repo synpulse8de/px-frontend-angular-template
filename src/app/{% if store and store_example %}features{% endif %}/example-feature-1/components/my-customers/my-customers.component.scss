@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+}
+
+.skeleton-placeholder {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading-pulse 3s infinite;
+  height: 22px; /* Adjust height as needed */
+  width: 100%; // Use full width of the column
+  border-radius: 4px; // Add border-radius for a nicer look
+}
+
+@keyframes loading-pulse {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+input {
+  padding: 0.5rem;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+}

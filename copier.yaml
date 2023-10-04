@@ -1,0 +1,45 @@
+# Common questions
+_templates_suffix: .p8c
+
+project_name:
+  type: str
+  help: Project Name (Pulse8 <project-name>)?
+  default: Pulse8 Core Angular App
+  _validate: |
+    {% if " " in value %}
+    {%- set msg = "Project name should be in kebab-case without spaces." -%}
+    {{ raise(msg) }}
+    {% endif %}
+
+project_id:
+  type: str
+  help: Project Id (pulse8-<project-name>)?
+  default: "{{project_name.lower() | replace(' ','-')}}"
+
+project_desc:
+  type: str
+  help: Project Description?
+
+auth:
+  type: bool
+  help: Do you want to use keycloak for authentication?
+  default: no
+
+store:
+  type: bool
+  help: Do you want to use ngrx for state management?
+  default: no
+
+# Add store examples
+store_example:
+  type: bool
+  help: Do you want examples for the implementation of the ngrx store?
+  when: "{{store}}"
+  default: no
+
+# Add normal project examples
+non_store_example:
+  type: bool
+  help: Do you want some example implementations for a new angular project?
+  when: "{{not store}}"
+  default: no

@@ -1,0 +1,41 @@
+name: Pulse8 Core Angular Template CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Authenticate to JFrog Artifactory
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: https://synpulse.jfrog.io/
+          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies using pnpm
+        run: pnpm install
+
+      - name: Call SPA build and push container workflow
+        uses: synpulse-group/s8-actions/build-and-push-spa-container@main
+        with:
+          build-output-path: test-build-and-push-spa-container-build
+          jfrog-user: ${{ secrets.JFROG_USER }} # no need to change - available in all workflows in the organisation
+          jfrog-password: ${{ secrets.JFROG_TOKEN }} # no need to change - available in all workflows in the organisation
+          nginx-conf-path: './src/assets/configs/nginx.conf'
+          dockerfile-path: './Dockerfile'

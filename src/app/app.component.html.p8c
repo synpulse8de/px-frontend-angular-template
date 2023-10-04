@@ -1,0 +1,5 @@
+<!-- Add everything related to surrounding layout here e.g. header, footer, sidebars etc. -->
+{% if store_example or non_store_example -%}<app-header></app-header>{%- endif %}
+<div class="p-4">
+  <router-outlet></router-outlet>
+</div>
