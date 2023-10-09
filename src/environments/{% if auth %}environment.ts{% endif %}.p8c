@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  environmentUrl: '/assets/config/environment.dev.json',
+  environmentUrl: '/assets/configs/environment.dev.json',
 }
