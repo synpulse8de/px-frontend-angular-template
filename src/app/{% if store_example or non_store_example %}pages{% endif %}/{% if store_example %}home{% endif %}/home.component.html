@@ -1,13 +1,15 @@
 <div class="d-flex flex-column">
-  <h1 *ngIf="!loggedIn; else signedIn">
+  <h1 *ngIf="!(loggedIn$ | async); else signedIn">
     Hi, please sign in to see your custom Dashboard
   </h1>
   <ng-template #signedIn>
     <h1>
-      Hi {{ currentUser.firstName }}&nbsp;{{ currentUser.lastName }}
+      Hi {{ (currentUser$ | async)?.firstName }}&nbsp;{{
+        (currentUser$ | async)?.lastName
+      }}
     </h1>
   </ng-template>
-  <div class="d-flex row" *ngIf="loggedIn">
+  <div class="d-flex row" *ngIf="loggedIn$ | async">
     <p>
       This is the content that gets displayed after successful login. This can
       be anything. For a more comprehensive example with the ngrx store

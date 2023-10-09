@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "clean-ng": {
+    "{{project_id}}": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/clean-ng",
+            "outputPath": "dist/{{project_id}}",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "clean-ng:build:production"
+              "browserTarget": "{{project_id}}:build:production"
             },
             "development": {
-              "browserTarget": "clean-ng:build:development"
+              "browserTarget": "{{project_id}}:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "clean-ng:build"
+            "browserTarget": "{{project_id}}:build"
           }
         },
         "test": {
