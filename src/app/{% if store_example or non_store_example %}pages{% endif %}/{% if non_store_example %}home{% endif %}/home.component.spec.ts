@@ -10,7 +10,7 @@ import {
   setKeycloakUserActions,
 } from '../../shared/+store/actions/shared-feature.actions'
 import { KeycloakProfile } from 'keycloak-js'
-import { AppModule } from '../../app.module.ts'
+import { AppModule } from '../../app.module'
 
 /**
  * This test suite focuses on the `HomeComponent`.

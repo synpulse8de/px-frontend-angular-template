@@ -1,5 +1,5 @@
 import { CountComponent } from './count.component'
-import { AppModule } from '../../../../app.module.ts'
+import { AppModule } from '../../../../app.module'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 describe('CountComponent', () => {

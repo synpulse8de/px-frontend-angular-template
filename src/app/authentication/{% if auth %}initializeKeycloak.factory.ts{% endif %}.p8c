@@ -28,7 +28,6 @@ import { KeyCloakEnv } from "../../assets/utils/keyCloakEnv";
 
 export function initializeKeycloak(keycloak: KeycloakService, keyCloakEnv: KeyCloakEnv): Function {
   return () => {
-      console.log(keyCloakEnv)
     return keycloak.init({
       config: {
         url: keyCloakEnv.KEYCLOAK_URL,

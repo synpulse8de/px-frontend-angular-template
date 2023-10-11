@@ -1,23 +1,39 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
-import { CountComponent } from './count.component'
-import { AppModule } from '../../../../app.module.ts'
+import { ExampleFeature1State } from '../../+store/reducers/example-feature-1.reducer';
+import { CountComponent } from "./count.component";
 
 describe('CountComponent', () => {
-  let component: CountComponent
-  let fixture: ComponentFixture<CountComponent>
-
+  let component: CountComponent;
+  let fixture: ComponentFixture<CountComponent>;
+  const initialState: ExampleFeature1State = {
+    count: 0,
+    loading: false,
+    entries: [],
+    selectedEntries: [],
+    error: null,
+    loadingStates: {
+      initLoading: false,
+      changeUserDataLoading: false,
+    }
+  }
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
       declarations: [CountComponent],
-    })
-    fixture = TestBed.createComponent(CountComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
-  })
-
-  it('should create', () => {
-    expect(component).toBeTruthy()
-  })
-})
+      providers: [
+        provideMockStore({ initialState })
+      ]
+    });
+    
+    fixture = TestBed.createComponent(CountComponent);
+    component = fixture.componentInstance;
+    
+    fixture.detectChanges();
+  });
+  
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+});

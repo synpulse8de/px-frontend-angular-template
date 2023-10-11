@@ -10,30 +10,31 @@ import { KeycloakProfile } from 'keycloak-js'
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    private keycloakService: KeycloakService,
-    private loginService: LoginService
-  ) {}
-
+      private keycloakService: KeycloakService,
+      private loginService: LoginService
+  ) {
+  }
+  
   private currentUser: KeycloakProfile = { firstName: '', lastName: '' }
-
+  
   ngOnInit(): void {
     if (this.isLoggedIn()) {
       this.keycloakService
-        .getKeycloakInstance()
-        .loadUserProfile()
-        .then((i) => (this.currentUser = i))
-        .catch((err) => console.log(err))
+          .getKeycloakInstance()
+          .loadUserProfile()
+          .then((i) => (this.currentUser = i))
+          .catch((err) => console.log(err))
     }
   }
-
+  
   protected isLoggedIn(): boolean | undefined {
     return this.keycloakService.getKeycloakInstance().authenticated
   }
-
+  
   protected login(): void {
     this.loginService.login()
   }
-
+  
   protected getUser(): string {
     if (this.currentUser) {
       const firstName = this.currentUser.firstName
@@ -44,7 +45,7 @@ export class HeaderComponent implements OnInit {
     }
     return ''
   }
-
+  
   protected logout(): void {
     this.keycloakService.logout('http://localhost:4200/home')
   }
