@@ -1,21 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{project-id}}
+  name: "{{project-id}}-deplyoment"
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{project-id}}
+      app: "{{project-id}}""
   template:
     metadata:
       labels:
-        app: {{project-id}}
+        app: "{{project-id}}"
     spec:
+      imagePullSecrets:
+        - name: synpulse-jfrog-docker-credential
       containers:
-        - name: {{project-id}}
-          image: ???
+        - name: "{{project-id}}"
+          image: synpulse.jfrog.io/artifactory/s8-docker/synpulse-group-{{project_id}}-main:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
