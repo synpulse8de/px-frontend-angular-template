@@ -46,10 +46,10 @@ jobs:
         run: pnpm install
 
       - name: Call SPA build and push container workflow
-        uses: synpulse-group/s8-actions/build-and-push-spa-container@main
+        uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
         with:
-          build-output-path: test-build-and-push-spa-container-build
+          docker-file-path: Dockerfile
+          docker-build-context-location: .
+          nginx-conf-path: './src/assets/configs/nginx.conf'
           jfrog-user: ${{ secrets.JFROG_USER }} # no need to change - available in all workflows in the organisation
           jfrog-password: ${{ secrets.JFROG_TOKEN }} # no need to change - available in all workflows in the organisation
-          nginx-conf-path: './src/assets/configs/nginx.conf'
-          dockerfile-path: './Dockerfile'
