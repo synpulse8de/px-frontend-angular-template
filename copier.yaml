@@ -23,6 +23,12 @@ project_desc:
   type: str
   help: Project Description?
 
+# ARM Build necessary
+build_for_arm:
+  type: bool
+  help: Do you need the Docker image to be built for arm architecture? (necessary for mac users)
+  default: no
+
 # Use keycloak
 auth:
   type: bool
@@ -47,10 +53,4 @@ non_store_example:
   type: bool
   help: Do you want some example implementations for a new angular project?
   when: "{{not store}}"
-  default: no
-
-# ARM Build necessary
-build_for_arm:
-  type: bool
-  help: Do you need the Docker image to be built for arm architecture? (necessary for mac users)
   default: no
