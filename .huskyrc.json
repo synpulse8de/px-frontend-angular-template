@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "pre-commit": "lint-staged && ng lint",
+    "pre-push": "ng build --prod"
+  }
+}
