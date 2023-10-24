@@ -1,23 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "{{project-id}}-deplyoment"
+  name: {{project-id}}-deployment
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "{{project-id}}""
+      app: {{project-id}}
   template:
     metadata:
       labels:
-        app: "{{project-id}}"
+        app: {{project-id}}
     spec:
       imagePullSecrets:
         - name: synpulse-jfrog-docker-credential
       containers:
-        - name: "{{project-id}}"
-          image: synpulse.jfrog.io/artifactory/s8-docker/synpulse-group-{{project_id}}-main:latest
+        - name: {{project-id}}
+          image: synpulse.jfrog.io/s8-docker/synpulse-group-{{project-id}}-master:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+{% if auth -%}volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/nginx/html/assets/configs/environment.json
+              subPath: environment.json
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{project-id}}-config{%- endif %}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{project-id}}-service
+  namespace: default
+spec:
+  selector:
+    app: {{project-id}}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+  type: NodePort
