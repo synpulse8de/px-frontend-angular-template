@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{project-id}}-deployment
+  name: {{project_id}}-deployment
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{project-id}}
+      app: {{project_id}}
   template:
     metadata:
       labels:
-        app: {{project-id}}
+        app: {{project_id}}
     spec:
       imagePullSecrets:
         - name: synpulse-jfrog-docker-credential
       containers:
-        - name: {{project-id}}
-          image: synpulse.jfrog.io/s8-docker/synpulse-group-{{project-id}}-master:latest
+        - name: {{project_id}}
+          image: synpulse.jfrog.io/s8-docker/synpulse-group-{{project_id}}-master:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -28,16 +28,16 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{project-id}}-config{%- endif %}
+            name: {{project_id}}-config{%- endif %}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{project-id}}-service
+  name: {{project_id}}-service
   namespace: default
 spec:
   selector:
-    app: {{project-id}}
+    app: {{project_id}}
   ports:
     - protocol: TCP
       port: 80
