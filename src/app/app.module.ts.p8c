@@ -46,32 +46,32 @@ import { ENV_CONFIG } from '../assets/utils/keyCloakEnv'
     HttpClientModule,
     SharedModule,
     ReactiveFormsModule,
-    {%- if auth -%}
+    {% if auth -%}
     KeycloakAngularModule,
-    {%- endif -%}
-    {%- if store -%}
+    {%- endif %}
+    {% if store -%}
     StoreModule.forRoot({}),
-    {%- endif -%}
-    {%- if store and store_example -%}
+    {%- endif %}
+    {% if store and store_example -%}
     StoreModule.forFeature(sharedFeature.name, sharedFeature.reducer),
-    {%- endif -%}
+    {%- endif %}
     {% if store -%}
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    {%- endif -%}
+    {%- endif %}
     {% if store -%}
     EffectsModule.forRoot([]),
-    {%- endif -%}
+    {%- endif %}
     {% if store and store_example -%}
     EffectsModule.forFeature([SharedFeatureEffects]),
-    {%- endif -%}
+    {%- endif %}
     {%- if store and store_example -%}
     ExampleFeature1Module,
     {%- endif %}
   ],
-  {%- if auth -%}providers: [
+  {% if auth -%}providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
@@ -79,7 +79,7 @@ import { ENV_CONFIG } from '../assets/utils/keyCloakEnv'
       deps: [KeycloakService, ENV_CONFIG],
     },
   ],
-  {% endif %}
+  {%- endif %}
   bootstrap: [AppComponent],
   exports: [],
 })
