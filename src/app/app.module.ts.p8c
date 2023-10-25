@@ -15,13 +15,13 @@ import { EffectsModule } from '@ngrx/effects'
 import { SharedFeatureEffects } from './shared/+store/effects/shared-feature.effects'
 import { sharedFeature } from './shared/+store/reducers/shared-feature.reducer'
 import { ExampleFeature1Module } from './features/example-feature-1/example-feature-1.module'
-{%- endif -%}
-{%- if store_example or non_store_example -%}
+{%- endif %}
+{%- if store_example or non_store_example %}
 import { HomeComponent } from './pages/home/home.component'
 import { ErrorPageComponent } from './pages/error-page/error-page.component'
 import { NotFoundComponent } from './pages/not-found/not-found.component'
 import { PieChartComponent } from './pages/home/pie-chart/pie-chart.component'
-{%- endif -%}
+{%- endif %}
 {%- if auth -%}
 import { initializeKeycloak } from './authentication/initializeKeycloak.factory'
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular'
