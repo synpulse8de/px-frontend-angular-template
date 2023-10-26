@@ -1,5 +1,6 @@
 import { KeycloakService } from 'keycloak-angular'
-import { KeyCloakEnv } from "../../assets/utils/keyCloakEnv";
+import { KeyCloakEnv } from '../../assets/utils/keyCloakEnv'
+import { KeyCloakHelperService } from '../shared/services/key-cloak-helper.service'
 
 /**
  * Initializes Keycloak for authentication and authorization.
@@ -9,6 +10,7 @@ import { KeyCloakEnv } from "../../assets/utils/keyCloakEnv";
  *
  * @param {KeycloakService} keycloak - The KeycloakService instance to initialize.
  *
+ * @param keyCloakHelperService A helper service to retrieve roles, attributes and groups of user
  * @param keyCloakEnv File containing the environment variables for keycloak initialization
  * @returns {Function} A function that initializes the Keycloak service when invoked.
  *
@@ -26,9 +28,13 @@ import { KeyCloakEnv } from "../../assets/utils/keyCloakEnv";
  *
  */
 
-export function initializeKeycloak(keycloak: KeycloakService, keyCloakEnv: KeyCloakEnv): Function {
-  return () => {
-    return keycloak.init({
+export function initializeKeycloak(
+  keycloak: KeycloakService,
+  keyCloakHelperService: KeyCloakHelperService,
+  keyCloakEnv: KeyCloakEnv
+): Function {
+  return async () => {
+    await keycloak.init({
       config: {
         url: keyCloakEnv.KEYCLOAK_URL,
         realm: keyCloakEnv.KEYCLOAK_REALM,
@@ -50,5 +56,6 @@ export function initializeKeycloak(keycloak: KeycloakService, keyCloakEnv: KeyCl
         return !(isGetRequest && isAcceptablePathMatch)
       },
     })
+    keyCloakHelperService.setUser()
   }
 }
