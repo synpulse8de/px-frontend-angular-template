@@ -28,6 +28,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular'
 {%- endif %}
 {% if auth -%}
 import { ENV_CONFIG } from '../assets/utils/keyCloakEnv'
+import { KeyCloakHelperService } from "./shared/services/key-cloak-helper.service";
 {%- endif %}
 
 @NgModule({
@@ -76,7 +77,7 @@ import { ENV_CONFIG } from '../assets/utils/keyCloakEnv'
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
       multi: true,
-      deps: [KeycloakService, ENV_CONFIG],
+      deps: [KeycloakService, KeyCloakHelperService, ENV_CONFIG],
     },
   ],
   {%- endif %}

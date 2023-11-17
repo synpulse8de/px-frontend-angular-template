@@ -30,18 +30,3 @@ spec:
         - name: config-volume
           configMap:
             name: {{project_id}}-config{%- endif %}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{project_id}}-service
-  namespace: default
-spec:
-  selector:
-    app: {{project_id}}
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30080
-  type: NodePort
