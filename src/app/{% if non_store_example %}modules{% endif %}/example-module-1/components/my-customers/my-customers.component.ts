@@ -29,7 +29,7 @@ export class MyCustomersComponent implements OnInit {
       .then((entries) => {
         this.entries = entries
       })
-      .catch((err) => {
+      .catch(() => {
         console.log('There was an error while loading the mock data')
       })
       .finally(() => {

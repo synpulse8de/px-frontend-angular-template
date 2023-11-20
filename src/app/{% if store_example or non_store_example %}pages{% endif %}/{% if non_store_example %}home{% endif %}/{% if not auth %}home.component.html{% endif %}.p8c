@@ -1,0 +1,14 @@
+<div class="d-flex flex-column">
+  <h1>
+      Hi, welcome to the Pulse8 Core Angular Template.
+  </h1>
+  <div class="d-flex row">
+    <p>
+      For a more comprehensive example with the ngrx store
+      implementation visit the <b>example module</b> tab!
+    </p>
+    <app-pie-chart
+      class="d-flex col-lg-4 col-md-6 col-sm-12 mb-3"
+    ></app-pie-chart>
+  </div>
+</div>

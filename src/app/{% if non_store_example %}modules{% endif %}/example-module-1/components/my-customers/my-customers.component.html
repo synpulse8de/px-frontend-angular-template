@@ -16,9 +16,17 @@
       <div class="col"><b>E-Mail</b></div>
     </div>
 
-    <div *ngFor="let entry of entries" class="row pb-2">
+    <div
+      *ngFor="let entry of entries"
+      class="row pb-2"
+      data-cy="customer-entry"
+    >
       <div class="col-auto">
-        <input type="checkbox" (click)="selectionToggle(entry, $event)" />
+        <input
+          data-cy="customer-checkbox"
+          type="checkbox"
+          (click)="selectionToggle(entry, $event)"
+        />
       </div>
       <div class="col overflow-ellipsis">{{ entry.id }}</div>
       <div class="col-2 overflow-ellipsis">{{ entry.name }}</div>
@@ -67,20 +75,21 @@
         <input type="checkbox" disabled />
       </div>
       <div class="col">
-        <input type="text" formControlName="id" />
+        <input data-cy="new-person-id" type="text" formControlName="id" />
       </div>
       <div class="col-2">
-        <input type="text" formControlName="name" />
+        <input data-cy="new-person-name" type="text" formControlName="name" />
       </div>
       <div class="col-1">
-        <input type="text" formControlName="age" />
+        <input data-cy="new-person-age" type="text" formControlName="age" />
       </div>
       <div class="col">
-        <input type="text" formControlName="email" />
+        <input data-cy="new-person-email" type="text" formControlName="email" />
       </div>
     </div>
     <div class="d-flex">
       <button
+        data-cy="add-customer-button"
         class="button me-2"
         [disabled]="this.newPersonFormGroup.invalid"
         (click)="addCustomer()"
@@ -88,6 +97,7 @@
         Add Customer
       </button>
       <button
+        data-cy="remove-customers-button"
         class="button warn"
         [disabled]="!hasSelection()"
         (click)="removeCustomers()"

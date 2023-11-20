@@ -1,8 +1,10 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core'
+import { {% if auth -%}APP_INITIALIZER,{%- endif -%} NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
+{% if store -%}
 import { environment } from '../environments/environment'
+{% endif -%}
 import { ReactiveFormsModule } from '@angular/forms'
 import { SharedModule } from './shared/shared.module'
 import { HttpClientModule } from '@angular/common/http'
@@ -33,7 +35,7 @@ import { ENV_CONFIG } from '../assets/utils/keyCloakEnv'
 @NgModule({
   declarations: [
     AppComponent,
-    {%- if store_example or non_store_example -%}
+    {% if store_example or non_store_example -%}
     ErrorPageComponent,
     NotFoundComponent,
     HomeComponent,
