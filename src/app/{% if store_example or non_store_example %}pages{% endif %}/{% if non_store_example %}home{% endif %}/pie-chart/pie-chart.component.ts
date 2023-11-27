@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { debounceTime } from 'rxjs'
-import { Store } from '@ngrx/store'
 import { ExampleModule1Service } from "../../../modules/example-module-1/services/example-module-1.service";
 
 @Component({
@@ -15,7 +14,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
 
     protected pieFormGroup!: FormGroup
 
-    constructor(private store: Store, private exampleModule1Service: ExampleModule1Service) {
+    constructor(private exampleModule1Service: ExampleModule1Service) {
     }
 
     ngOnInit(): void {

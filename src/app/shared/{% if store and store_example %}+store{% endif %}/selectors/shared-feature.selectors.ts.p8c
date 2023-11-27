@@ -7,17 +7,19 @@ export const selectSharedFeatureState =
     fromSharedFeature.SHARED_FEATURE_KEY
   )
 
+{% if auth -%}
 export const selectCurrentUser = createSelector(
   selectSharedFeatureState,
   (state: SharedFeatureState) => state.userProfile
 )
 
-export const selectPieChartValue = createSelector(
-  selectSharedFeatureState,
-  (state: SharedFeatureState) => state.pieChartValue
-)
-
 export const selectLogin = createSelector(
   selectSharedFeatureState,
   (state: SharedFeatureState) => state.loggedIn
+)
+{%- endif %}
+
+export const selectPieChartValue = createSelector(
+  selectSharedFeatureState,
+  (state: SharedFeatureState) => state.pieChartValue
 )

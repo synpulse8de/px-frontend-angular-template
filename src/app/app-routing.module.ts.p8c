@@ -27,11 +27,13 @@ const routes: Routes = [
           import('./features/example-feature-1/example-feature-1.module').then(
             (m) => m.ExampleFeature1Module
           ),
-        {% if auth -%}canActivate: [AuthGuard],{%- endif %}
+        {% if auth -%}//canActivate: [AuthGuard],
+        // remove comment if you want to test the auth guard, currently commented because cypress doesn't really support keycloak with sso. Which in turn breaks the tests
+        {%- endif %}
         {% if not auth -%}canActivate: [],{%- endif %}
       },{%- endif %}
       {% if non_store_example -%}{
-        path: 'lazy_2',
+        path: 'lazy_1',
         loadChildren: () =>
           import('./modules/example-module-1/example-module-1.module').then(
             (m) => m.ExampleModule1Module

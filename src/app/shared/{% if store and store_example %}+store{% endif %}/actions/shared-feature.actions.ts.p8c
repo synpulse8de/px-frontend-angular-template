@@ -1,5 +1,7 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
+{% if auth -%}
 import { KeycloakProfile } from 'keycloak-js'
+{%- endif %}
 
 export const SharedFeatureActions = createActionGroup({
   source: 'Shared Feature',
@@ -14,7 +16,7 @@ export const changePieChartValue = createAction(
   '[Shared Feature] Change pie chart value',
   props<{ pieChartValue: number }>()
 )
-
+{% if auth -%}
 export const checkLoginStateActions = createActionGroup({
   source: 'Shared Feature',
   events: {
@@ -32,3 +34,5 @@ export const setKeycloakUserActions = createActionGroup({
     'Set Keycloak User Failure': props<{ error: any }>(),
   },
 })
+{%- endif %}
+

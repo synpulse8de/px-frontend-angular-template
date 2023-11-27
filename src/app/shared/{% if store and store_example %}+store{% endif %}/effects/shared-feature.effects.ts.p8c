@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, concatMap, map } from 'rxjs/operators'
-import { EMPTY, from, of } from 'rxjs'
+import { EMPTY, {% if auth -%}from,{%- endif -%} of } from 'rxjs'
 import {
+{% if auth -%}
   checkLoginStateActions,
   setKeycloakUserActions,
+{%- endif %}
   SharedFeatureActions,
 } from '../actions/shared-feature.actions'
+{% if auth -%}
 import { KeycloakService } from 'keycloak-angular'
 import { KeycloakProfile } from 'keycloak-js'
+{%- endif %}
 
 @Injectable()
 export class SharedFeatureEffects {
@@ -29,6 +33,7 @@ export class SharedFeatureEffects {
     )
   })
 
+{% if auth -%}
   checkKeycloakLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(checkLoginStateActions.checkKeycloakLoginState),
@@ -63,9 +68,12 @@ export class SharedFeatureEffects {
       )
     )
   })
+{%- endif %}
 
   constructor(
     private actions$: Actions,
+    {% if auth -%}
     private keycloakService: KeycloakService
+    {%- endif %}
   ) {}
 }

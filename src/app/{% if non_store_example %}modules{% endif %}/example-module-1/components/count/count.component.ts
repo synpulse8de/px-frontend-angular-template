@@ -17,9 +17,11 @@ export class CountComponent implements OnInit {
 
   public onIncrement(): void {
     this.exampleModule1Service.count++
+    this.count++
   }
 
   public onDecrement(): void {
     this.exampleModule1Service.count--
+    this.count--
   }
 }

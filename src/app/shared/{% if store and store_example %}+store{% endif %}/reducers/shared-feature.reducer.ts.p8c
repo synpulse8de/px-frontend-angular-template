@@ -1,33 +1,45 @@
 import { createFeature, createReducer, on } from '@ngrx/store'
 import {
   changePieChartValue,
+  {%- if auth -%}
   checkLoginStateActions,
   setKeycloakUserActions,
+  {%- endif %}
   SharedFeatureActions,
 } from '../actions/shared-feature.actions'
+{% if auth -%}
 import { KeycloakProfile } from 'keycloak-js'
+{%- endif %}
 
 export const SHARED_FEATURE_KEY = 'sharedFeature'
 
 export interface SharedFeatureState {
   pieChartValue: number
   loggedIn: boolean
+  {%- if auth -%}
   userProfile: KeycloakProfile
+  {%- endif %}
   error: any
   loadingStates: {
+    {% if auth -%}
     loadingUser: boolean
     loadingLoggedIn: boolean
+    {%- endif %}
   }
 }
 
 export const initialState: SharedFeatureState = {
   pieChartValue: 80,
   loggedIn: false,
+  {%- if auth -%}
   userProfile: {},
+  {%- endif %}
   error: null,
   loadingStates: {
+    {% if auth -%}
     loadingUser: false,
     loadingLoggedIn: false,
+    {%- endif %}
   },
 }
 
@@ -37,6 +49,7 @@ export const reducer = createReducer(
     SharedFeatureActions.loadSharedFeatures,
     (state: SharedFeatureState) => state
   ),
+  {% if auth -%}
   on(setKeycloakUserActions.setKeycloakUser, (state: SharedFeatureState) => ({
     ...state,
     loadingStates: { ...state.loadingStates, ['loadingUser']: true },
@@ -77,6 +90,7 @@ export const reducer = createReducer(
       error,
     })
   ),
+  {%- endif %}
   on(changePieChartValue, (state: SharedFeatureState, { pieChartValue }) => ({
     ...state,
     pieChartValue,

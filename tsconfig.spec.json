@@ -4,11 +4,19 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine"
+      "jasmine",
+      "cypress"
     ]
   },
+  "files": [
+    "../cypress.config.ts"
+  ],
   "include": [
     "src/**/*.spec.ts",
+    "src/**/*.cy.ts",
     "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "../src/**/*.ts"
   ]
 }
