@@ -5,6 +5,7 @@ commonLabels:
   app: {{project_id}}
   tier: frontend
   env: dev
-  
+
 resources:
   - deployment.yaml
+  - ingress.yaml
