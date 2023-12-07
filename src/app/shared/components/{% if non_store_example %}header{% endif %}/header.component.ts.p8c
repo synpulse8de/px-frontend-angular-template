@@ -17,9 +17,9 @@ export class HeaderComponent implements OnInit {
       {%- endif -%}
   ) {
   }
-  {% if auth -%}
+{% if auth -%}
   private currentUser: KeycloakProfile = { firstName: '', lastName: '' }
-  {%- endif -%}
+{%- endif %}
 
   ngOnInit(): void {
     {% if auth -%}

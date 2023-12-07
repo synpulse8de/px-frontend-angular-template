@@ -4,7 +4,6 @@
             <li><a routerLink="/home" data-cy="navTab1">Home</a></li>
             <li><a routerLink="/lazy-zone/lazy_1" data-cy="navTab2">Example Module</a></li>
         </ul>
-            {%- if auth -%}
         <div class="align-self-center">
 
             <button
@@ -19,6 +18,5 @@
                 <button class="button warn" (click)="logout()">Sign out</button>
             </ng-template>
         </div>
-            {%- endif %-}
     </nav>
 </div>

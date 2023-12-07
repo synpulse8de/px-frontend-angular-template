@@ -1,10 +1,10 @@
 import { createFeature, createReducer, on } from '@ngrx/store'
 import {
   changePieChartValue,
-  {%- if auth -%}
+{%- if auth %}
   checkLoginStateActions,
   setKeycloakUserActions,
-  {%- endif %}
+{%- endif %}
   SharedFeatureActions,
 } from '../actions/shared-feature.actions'
 {% if auth -%}
@@ -16,9 +16,9 @@ export const SHARED_FEATURE_KEY = 'sharedFeature'
 export interface SharedFeatureState {
   pieChartValue: number
   loggedIn: boolean
-  {%- if auth -%}
+{%- if auth %}
   userProfile: KeycloakProfile
-  {%- endif %}
+{%- endif %}
   error: any
   loadingStates: {
     {% if auth -%}

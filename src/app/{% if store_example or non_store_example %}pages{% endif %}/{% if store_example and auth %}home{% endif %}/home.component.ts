@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-{% if auth -%}
 import { Store } from '@ngrx/store'
 import {
   checkLoginStateActions,
@@ -9,7 +8,6 @@ import {
   selectCurrentUser,
   selectLogin,
 } from '../../shared/+store/selectors/shared-feature.selectors'
-{%- endif %}
 
 @Component({
   selector: 'app-home',
@@ -17,15 +15,12 @@ import {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor({%- if auth -%}private store: Store{%- endif -%}) {}
-  {% if auth -%}
+  constructor(private store: Store) {}
   currentUser$ = this.store.select(selectCurrentUser)
   loggedIn$ = this.store.select(selectLogin)
-  {%- endif %}
 
   ngOnInit() {
-  {% if auth -%}
-    this.store.dispatch(checkLoginStateActions.checkKeycloakLoginState())
-    this.store.dispatch(setKeycloakUserActions.setKeycloakUser())
-    {%- endif -%}}
+      this.store.dispatch(checkLoginStateActions.checkKeycloakLoginState())
+      this.store.dispatch(setKeycloakUserActions.setKeycloakUser())
+  }
 }
