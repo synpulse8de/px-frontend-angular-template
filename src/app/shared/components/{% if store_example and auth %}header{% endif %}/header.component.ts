@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-{% if auth -%}
+
 import { KeycloakService } from 'keycloak-angular'
 import { LoginService } from '../../services/login.service'
 import { KeycloakProfile } from 'keycloak-js'
-{%- endif %}
 
 @Component({
   selector: 'app-header',
@@ -11,16 +10,14 @@ import { KeycloakProfile } from 'keycloak-js'
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor({%- if auth -%}
+  constructor(
       private keycloakService: KeycloakService,
       private loginService: LoginService
-  {%- endif -%}) {
+  ) {
   }
-  {% if auth -%}
+  
   private currentUser: KeycloakProfile = { firstName: '', lastName: '' }
-  {%- endif %}
   ngOnInit(): void {
-  {% if auth -%}
     if (this.isLoggedIn()) {
       this.keycloakService
           .getKeycloakInstance()
@@ -28,25 +25,16 @@ export class HeaderComponent implements OnInit {
           .then((i) => (this.currentUser = i))
           .catch((err) => console.log(err))
     }
-  {%- endif -%}
   }
   protected isLoggedIn(): boolean | undefined {
-  {% if auth -%}
     return this.keycloakService.getKeycloakInstance().authenticated
-  {%- endif -%}
-  {% if not auth -%}
-  return
-  {%- endif -%}
   }
 
   protected login(): void {
-  {% if auth -%}
     this.loginService.login()
-  {%- endif -%}
   }
 
   protected getUser(): string {
-  {% if auth -%}
     if (this.currentUser) {
       const firstName = this.currentUser.firstName
       const lastName = this.currentUser.lastName
@@ -54,13 +42,10 @@ export class HeaderComponent implements OnInit {
         return firstName + ' ' + lastName + ' ' + '!'
       }
     }
-  {%- endif -%}
     return ''
   }
 
   protected logout(): void {
-  {% if auth -%}
     this.keycloakService.logout('http://localhost:4200/home')
-  {%- endif -%}
   }
 }

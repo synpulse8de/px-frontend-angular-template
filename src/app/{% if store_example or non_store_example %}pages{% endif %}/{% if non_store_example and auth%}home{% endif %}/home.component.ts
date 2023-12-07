@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-{% if auth -%}
 import { KeycloakService } from 'keycloak-angular'
 import { KeycloakProfile } from 'keycloak-js'
-{%- endif %}
 
 @Component({
     selector: 'app-home',
@@ -10,15 +8,12 @@ import { KeycloakProfile } from 'keycloak-js'
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    constructor({%- if auth -%}private keycloakService: KeycloakService{% endif %}) {
+    constructor(private keycloakService: KeycloakService) {
     }
-    {% if auth -%}
     currentUser: KeycloakProfile = {};
     loggedIn = false;
-    {%- endif %}
 
     ngOnInit() {
-        {% if auth -%}
         this.keycloakService.isLoggedIn().then((state) => {
             this.loggedIn = state;
         })
@@ -26,6 +21,5 @@ export class HomeComponent implements OnInit {
         this.keycloakService.getKeycloakInstance().loadUserProfile().then((profile) => {
             this.currentUser = profile;
         })
-        {%- endif %}
     }
 }
