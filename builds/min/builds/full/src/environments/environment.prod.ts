@@ -1,5 +1,0 @@
-export const environment = {
-  production: true,
-  //This is supposed to be mounted by a config map from k8s or similar
-  environmentUrl: '/assets/configs/environment.json',
-}

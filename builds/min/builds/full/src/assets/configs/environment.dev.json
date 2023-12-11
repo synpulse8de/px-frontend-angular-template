@@ -1,5 +1,0 @@
-{
-  "KEYCLOAK_URL": "https://keycloak.pulse8.synpulse8.com",
-  "KEYCLOAK_CLIENT_ID": "angular-client-test",
-  "KEYCLOAK_REALM": "pulse8_wealth_cockpit"
-}
