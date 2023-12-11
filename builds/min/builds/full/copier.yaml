@@ -55,23 +55,7 @@ non_store_example:
   when: "{{not store}}"
   default: no
 
-add_sonar:
-  type: bool
-  help: Add SonarCloud scan github action ?
-  default: false
-
-sonar_project_key_suffix:
-  type: str
-  help: Sonar project key suffix (synpulse-group_<suffix>)
-  when: "{{ add_sonar }}"
-  default: "{{ project_id }}"
-  validator: >-
-    {% if not (sonar_project_key_suffix | regex_search('^[a-z0-9\-\_]*$')) %}
-    Sonar project key suffix must contain only lowercase letters, digits, dashes or underscores.
-    {% endif %}
-
 _exclude:
   - '/.git'
   - '/copier.yml'
   - '/.github/workflows/template-build*'
-  - '/copier-build.sh'

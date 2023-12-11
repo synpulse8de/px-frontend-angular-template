@@ -1,0 +1,8 @@
+# Changes here will be overwritten by Copier
+auth: false
+build_for_arm: false
+project_desc: Template build min
+project_id: pulse8-yourname-frontend
+project_name: Pulse8 YourName Frontend
+store: false
+store_example: false

@@ -1,0 +1,10 @@
+# Changes here will be overwritten by Copier
+_commit: v0.0.17-4-g7839cfb
+_src_path: .
+auth: false
+build_for_arm: false
+non_store_example: false
+project_desc: Template build min
+project_id: pulse8-yourname-frontend
+project_name: Pulse8 YourName Frontend
+store: false
