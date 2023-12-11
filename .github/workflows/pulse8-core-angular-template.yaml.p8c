@@ -5,17 +5,18 @@ on:
     branches:
       - master
 
-
-defaults:
-  run:
-    working-directory: ./builds/full
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+
+      - name: Authenticate to JFrog Artifactory
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: https://synpulse.jfrog.io/
+          JF_ACCESS_TOKEN: ${% raw %}{{ secrets.JFROG_TOKEN }}{% endraw %}
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -47,12 +48,14 @@ jobs:
       - name: Call SPA build and push container workflow
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
         with:
-          docker-file-path: ./builds/full/Dockerfile
-          docker-build-context-location: ./builds/full
-          nginx-conf-path: './builds/full/src/assets/configs/nginx.conf'
-          jfrog-user: ${% raw %}{{ secrets.JFROG_USER }}{% endraw %}
-          jfrog-password: ${% raw %}{{ secrets.JFROG_TOKEN }}{% endraw %}
-
+          docker-file-path: Dockerfile
+          docker-build-context-location: .
+          nginx-conf-path: './src/assets/configs/nginx.conf'
+          include-arm64: {{ build_for_arm }}
+          jfrog-user: ${% raw %}{{ secrets.JFROG_USER }}{% endraw %} # no need to change - available in all workflows in the organisation
+          jfrog-password: ${% raw %}{{ secrets.JFROG_TOKEN }}{% endraw %} # no need to change - available in all workflows in the organisation
+{% if add_sonar %}
+      # Cache SonarCloud packages
       - name: "Cache SonarCloud packages"
         uses: actions/cache@v3
         with:
@@ -60,8 +63,10 @@ jobs:
           key: ${% raw %}{{ runner.os }}{% endraw %}-sonar
           restore-keys: ${% raw %}{{ runner.os }}{% endraw %}-sonar
 
+      # Analyze with SonarCloud
       - name: "Analyze with SonarCloud"
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${% raw %}{{ secrets.GITHUB_TOKEN }}{% endraw %}
-          SONAR_TOKEN: ${% raw %}{{ secrets.SONAR_TOKEN }}{% endraw %}{% endif %}
+          SONAR_TOKEN: ${% raw %}{{ secrets.SONAR_TOKEN }}{% endraw %}
+{% endif %}
