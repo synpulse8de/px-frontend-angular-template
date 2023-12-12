@@ -10,7 +10,7 @@ defaults:
     working-directory: ./builds/full
 
 jobs:
-  buildAndPushImage:
+  buildAndPushImageFull:
     runs-on: ubuntu-latest
     environment:
       name: ${{github.ref_name}}
@@ -55,7 +55,7 @@ jobs:
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
         with:
           docker-build-context-location: .
-          docker-file-path: Dockerfile
+          docker-file-path: ./Dockerfile
           nginx-conf-path: './src/assets/configs/nginx.conf'
           jfrog-user: ${{ secrets.JFROG_USER }}
           jfrog-password: ${{ secrets.JFROG_TOKEN }}
