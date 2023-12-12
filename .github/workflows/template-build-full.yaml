@@ -4,33 +4,36 @@ on:
   push:
     branches:
       - feature/build-piplines-sonar
-  pull_request:
-    branches:
-      - master
+
+defaults:
+  run:
+    working-directory: ./builds/full
 
 jobs:
-  build:
+  buildAndPushImage:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{github.ref_name}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Authenticate to JFrog Artifactory
-        uses: jfrog/setup-jfrog-cli@v3
-        env:
-          JF_URL: https://synpulse.jfrog.io/
-          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
+#      - name: Authenticate to JFrog Artifactory
+#        uses: jfrog/setup-jfrog-cli@v3
+#        env:
+#          JF_URL: https://synpulse.jfrog.io/
+#          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
-#      - name: Install Node.js
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18
-#
-#      - name: Install pnpm
-#        uses: pnpm/action-setup@v2
-#        with:
-#          version: 8
-#          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
 
       - name: Get pnpm store directory
         shell: bash
@@ -51,8 +54,8 @@ jobs:
       - name: Call SPA build and push container workflow
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
         with:
-          docker-file-path: ./builds/full/Dockerfile
           docker-build-context-location: ./builds/full
+          docker-file-path: ./builds/full/Dockerfile
           nginx-conf-path: './builds/full/src/assets/configs/nginx.conf'
           jfrog-user: ${% raw %}{{ secrets.JFROG_USER }}{% endraw %}
           jfrog-password: ${% raw %}{{ secrets.JFROG_TOKEN }}{% endraw %}

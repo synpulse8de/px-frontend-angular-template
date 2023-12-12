@@ -4,33 +4,33 @@ on:
   push:
     branches:
       - feature/build-piplines-sonar
-  pull_request:
-    branches:
-      - master
+
 
 jobs:
-  build:
+  buildAndPushImage:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{github.ref_name}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Authenticate to JFrog Artifactory
-        uses: jfrog/setup-jfrog-cli@v3
-        env:
-          JF_URL: https://synpulse.jfrog.io/
-          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
+      #      - name: Authenticate to JFrog Artifactory
+      #        uses: jfrog/setup-jfrog-cli@v3
+      #        env:
+      #          JF_URL: https://synpulse.jfrog.io/
+      #          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
-#      - name: Install Node.js
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18
-#
-#      - name: Install pnpm
-#        uses: pnpm/action-setup@v2
-#        with:
-#          version: 8
-#          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
 
       - name: Get pnpm store directory
         shell: bash
