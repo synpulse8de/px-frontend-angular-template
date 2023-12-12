@@ -4,21 +4,19 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
-
-
-defaults:
-  run:
-    working-directory: ./builds/full
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+
+      - name: Authenticate to JFrog Artifactory
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: https://synpulse.jfrog.io/
+          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -53,7 +51,6 @@ jobs:
           docker-file-path: Dockerfile
           docker-build-context-location: .
           nginx-conf-path: './src/assets/configs/nginx.conf'
-          include-arm64: true
           jfrog-user: ${{ secrets.JFROG_USER }} # no need to change - available in all workflows in the organisation
           jfrog-password: ${{ secrets.JFROG_TOKEN }} # no need to change - available in all workflows in the organisation
 
