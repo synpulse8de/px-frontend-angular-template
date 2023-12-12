@@ -1,0 +1,68 @@
+describe('', () => {
+  it('should display Home and Example Module links', () => {
+    cy.visitHome()
+    cy.get('[data-cy="navBar"] li').should('have.length', 2)
+    cy.get('[data-cy="navTab1"]').should('contain.text', 'Home')
+    cy.get('[data-cy="navTab2"]').should('contain.text', 'Example Module')
+  })
+
+  it('should change route and display My Customers table when "Example Module" is clicked', () => {
+    cy.visitHome()
+    cy.get('[data-cy="navTab2"]').should('contain.text', 'Example Module')
+    cy.get('[data-cy="navTab2"]').click()
+  })
+
+  it('should change PieChart value to 25, navigate to Example Module, and check PieChart Showcase', () => {
+    // Visit the home page
+    cy.visitHome()
+    // Change PieChart value to 25
+    cy.get('[data-cy="piechart-input"]').type('{selectall}{backspace}25')
+    cy.get('[data-cy="piechart-input"]').should('have.value', '25')
+    cy.wait(100)
+    // Click on the navigation link for the example module
+    cy.get('[data-cy="navTab2"]').click()
+
+    // Check PieChart Showcase in the example module
+    cy.get('[data-cy="piechart-value"]').should(
+      'contain.text',
+      'Pie Chart Value: 25'
+    )
+  })
+
+  it('should add and remove customers', () => {
+    // Visit the base page
+    cy.visitFeature()
+    // Artificial wait
+    cy.wait(2500)
+    // Add Customer
+    cy.get('[data-cy="new-person-name"]').type('John Doe')
+    cy.get('[data-cy="new-person-age"]').type('25')
+    cy.get('[data-cy="new-person-email"]').type('john.doe@example.com')
+    cy.get('[data-cy="add-customer-button"]').click()
+
+    // Assert the added customer is in the list
+    cy.contains('[data-cy="customer-entry"]', 'John Doe')
+
+    // Remove Customer
+    cy.get('[data-cy="customer-entry"]')
+      .last()
+      .find('[data-cy="customer-checkbox"]')
+      .check()
+    cy.get('[data-cy="remove-customers-button"]').click()
+
+    // Assert the customer is removed
+    cy.contains('[data-cy="customer-entry"]', 'John Doe').should('not.exist')
+  })
+
+  it('should increment and decrement count', () => {
+    // Visit the base page
+    cy.visitFeature()
+    // Increment
+    cy.get('[data-cy="increment-button"]').click()
+    cy.get('[data-cy="count"]').should('have.text', 'Count: 1')
+
+    // Decrement
+    cy.get('[data-cy="decrement-button"]').click()
+    cy.get('[data-cy="count"]').should('have.text', 'Count: 0')
+  })
+})

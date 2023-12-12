@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-{% if auth and store_example -%}//import { AuthGuard } from './authentication/auth-guard'{%- endif %}
-{% if store_example or non_store_example -%}
+//import { AuthGuard } from './authentication/auth-guard'
 import { ErrorPageComponent } from './pages/error-page/error-page.component'
 import { NotFoundComponent } from './pages/not-found/not-found.component'
 import { HomeComponent } from './pages/home/home.component'
-{%- endif %}
 
 const routes: Routes = [
-  {% if store_example or non_store_example -%}{
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
@@ -21,25 +19,17 @@ const routes: Routes = [
   {
     path: 'lazy-zone',
     children: [
-      {% if store and store_example -%}{
+      {
         path: 'lazy_1',
         loadChildren: () =>
           import('./features/example-feature-1/example-feature-1.module').then(
             (m) => m.ExampleFeature1Module
           ),
-        {% if auth -%}//canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
         // remove comment if you want to test the auth guard, currently commented because cypress doesn't really support keycloak with sso. Which in turn breaks the tests
-        {%- endif %}
-        {% if not auth -%}canActivate: [],{%- endif %}
-      },{%- endif %}
-      {% if non_store_example -%}{
-        path: 'lazy_1',
-        loadChildren: () =>
-          import('./modules/example-module-1/example-module-1.module').then(
-            (m) => m.ExampleModule1Module
-          ),
-        canActivate: [],
-      },{%- endif %}
+        
+      },
+      
     ],
   },
 
@@ -56,7 +46,7 @@ const routes: Routes = [
     path: '**', // Catch-all route for unknown paths
     redirectTo: '/not-found', // Redirect to the not-found page
     pathMatch: 'full',
-  },{%- endif %}
+  },
 ]
 
 @NgModule({
