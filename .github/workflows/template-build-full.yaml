@@ -1,4 +1,4 @@
-name: Pulse8 Core Angular Template CI
+name: Pulse8 Core Angular Template Full CI
 
 on:
   push:
@@ -54,9 +54,9 @@ jobs:
       - name: Call SPA build and push container workflow
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
         with:
-          docker-build-context-location: .
-          docker-file-path: ./Dockerfile
-          nginx-conf-path: './src/assets/configs/nginx.conf'
+          docker-build-context-location: ./builds/full
+          docker-file-path: ./builds/full/Dockerfile
+          nginx-conf-path: './builds/full/src/assets/configs/nginx.conf'
           jfrog-user: ${{ secrets.JFROG_USER }}
           jfrog-password: ${{ secrets.JFROG_TOKEN }}
 
