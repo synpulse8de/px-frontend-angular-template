@@ -18,11 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-#      - name: Authenticate to JFrog Artifactory
-#        uses: jfrog/setup-jfrog-cli@v3
-#        env:
-#          JF_URL: https://synpulse.jfrog.io/
-#          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
+      - name: Authenticate to JFrog Artifactory
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: https://synpulse.jfrog.io/
+          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -43,10 +43,10 @@ jobs:
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
-          path: ${% raw %}{{ env.STORE_PATH }}{% endraw %}
-          key: ${% raw %}{{ runner.os }}{% endraw %}-pnpm-store-${% raw %}{{ hashFiles('**/pnpm-lock.yaml') }}{% endraw %}
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${% raw %}{{ runner.os }}{% endraw %}-pnpm-store-
+            ${{ runner.os }}-pnpm-store-
 #
 #      - name: Install dependencies using pnpm
 #        run: pnpm install
@@ -57,18 +57,18 @@ jobs:
           docker-build-context-location: ./builds/full
           docker-file-path: ./builds/full/Dockerfile
           nginx-conf-path: './builds/full/src/assets/configs/nginx.conf'
-          jfrog-user: ${% raw %}{{ secrets.JFROG_USER }}{% endraw %}
-          jfrog-password: ${% raw %}{{ secrets.JFROG_TOKEN }}{% endraw %}
+          jfrog-user: ${{ secrets.JFROG_USER }}
+          jfrog-password: ${{ secrets.JFROG_TOKEN }}
 
       - name: "Cache SonarCloud packages"
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
-          key: ${% raw %}{{ runner.os }}{% endraw %}-sonar
-          restore-keys: ${% raw %}{{ runner.os }}{% endraw %}-sonar
+          key: ${{ runner.os }}}-sonar
+          restore-keys: ${{ runner.os }}-sonar
 
       - name: "Analyze with SonarCloud"
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${% raw %}{{ secrets.GITHUB_TOKEN }}{% endraw %}
-          SONAR_TOKEN: ${% raw %}{{ secrets.SONAR_TOKEN }}{% endraw %}{% endif %}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
