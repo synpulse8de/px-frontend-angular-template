@@ -8,3 +8,5 @@ project_id: pulse8-yourname-frontend
 project_name: Pulse8 YourName Frontend
 store: true
 store_example: true
+add_sonar: true
+sonar_project_key_suffix: pulse8-core-frontend-template

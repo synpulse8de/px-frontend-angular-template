@@ -1,20 +1,28 @@
-name: Pulse8 Core Angular Template CI
+name: Pulse8 Core Angular Template Min CI
 
 on:
   push:
     branches:
-      - master
+      - feature/build-piplines-sonar
 
 defaults:
   run:
     working-directory: ./builds/min
 
 jobs:
-  build:
+  buildAndPushImageMin:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{github.ref_name}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Authenticate to JFrog Artifactory
+        uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: https://synpulse.jfrog.io/
+          JF_ACCESS_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -25,7 +33,7 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false
+          run_install: true
 
       - name: Get pnpm store directory
         shell: bash
@@ -40,14 +48,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies using pnpm
-        run: pnpm install
+      - name: Run tests and generate coverage report
+        run: pnpm test
 
       - name: Call SPA build and push container workflow
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
         with:
-          docker-file-path: ./builds/min/Dockerfile
           docker-build-context-location: ./builds/min
+          docker-file-path: ./builds/min/Dockerfile
           nginx-conf-path: './builds/min/src/assets/configs/nginx.conf'
           jfrog-user: ${{ secrets.JFROG_USER }} # no need to change - available in all workflows in the organisation
           jfrog-password: ${{ secrets.JFROG_TOKEN }} # no need to change - available in all workflows in the organisation
@@ -63,6 +71,8 @@ jobs:
       # Analyze with SonarCloud
       - name: "Analyze with SonarCloud"
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: builds/min
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

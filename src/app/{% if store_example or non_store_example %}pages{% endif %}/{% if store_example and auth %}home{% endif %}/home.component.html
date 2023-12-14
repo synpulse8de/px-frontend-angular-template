@@ -9,7 +9,7 @@
       }}
     </h1>
   </ng-template>
-  <div class="d-flex row" *ngIf="loggedIn$ | async">
+  <div class="d-flex row" [hidden]="!(loggedIn$ | async)">
     <p>
       This is the content that gets displayed after successful login. This can
       be anything. For a more comprehensive example with the ngrx store
