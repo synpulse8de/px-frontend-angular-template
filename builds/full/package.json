@@ -6,9 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --no-watch --code-coverage",
+    "test": "ng test --no-watch --no-progress --watch=false --code-coverage --browsers=ChromeHeadless",
     "prettier:write": "prettier --config .prettierrc.json -w \"src/**/*.{js,ts,scss,md,html,json}\"",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress run --config-file cypress.config.ts --headless"
   },
   "lint-staged": {
     "src/**/*.{js,ts,scss,md,html,json}": [

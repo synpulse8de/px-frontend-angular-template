@@ -19,7 +19,7 @@ class MockKeycloakService {
         new Promise((resolve) =>
           resolve({ firstName: 'John', lastName: 'Doe' })
         ),
-      logout: (url: string) => {},
+      logout: () => {},
     }
   }
 }

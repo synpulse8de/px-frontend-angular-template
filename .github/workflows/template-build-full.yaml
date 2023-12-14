@@ -33,7 +33,7 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false
+          run_install: true
 
       - name: Get pnpm store directory
         shell: bash
@@ -47,9 +47,9 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-#
-#      - name: Install dependencies using pnpm
-#        run: pnpm install
+
+      - name: Run tests and generate coverage report
+        run: pnpm test
 
       - name: Call SPA build and push container workflow
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template

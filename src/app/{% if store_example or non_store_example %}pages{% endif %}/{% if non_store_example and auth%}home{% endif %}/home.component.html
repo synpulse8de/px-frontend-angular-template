@@ -7,7 +7,7 @@
       Hi {{ currentUser.firstName }}&nbsp;{{ currentUser.lastName }}
     </h1>
   </ng-template>
-  <div class="d-flex row" *ngIf="loggedIn">
+  <div class="d-flex row" [hidden]="!loggedIn">
     <p>
       This is the content that gets displayed after successful login. This can
       be anything. For a more comprehensive example with the ngrx store
