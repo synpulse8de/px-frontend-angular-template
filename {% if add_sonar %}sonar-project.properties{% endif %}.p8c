@@ -1,7 +1,7 @@
 sonar.projectKey=synpulse-group_{{sonar_project_key_suffix}}
 sonar.organization=synpulse-group
 sonar.sources=src
-sonar.exclusions=**/node_modules/**, **/*.spec.ts, **/app-routing.module.ts,
+sonar.exclusions=**/node_modules/**,src/**/*.spec.ts,cypress/**/*,e2e/**/*,src/environments/**/*,src/test.ts,src/main.ts,src/karma.conf.js
 sonar.tests=src
 sonar.test.inclusions=**/*.spec.ts
-sonar.typescript.lcov.reportPaths=coverage/lcov.info
+sonar.typescript.lcov.reportPaths=./coverage/{{project_id}}/lcov-report/lcov.info
