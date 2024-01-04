@@ -1,5 +1,5 @@
 version: v2beta1
-name: {{project_name}}
+name: {{project_id}}
 
 # This is a list of `pipelines` that DevSpace can execute (you can define your own)
 pipelines:
