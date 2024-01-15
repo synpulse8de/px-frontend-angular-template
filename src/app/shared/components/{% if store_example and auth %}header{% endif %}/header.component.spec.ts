@@ -11,7 +11,7 @@ class MockKeycloakService {
         return {
             authenticated: this.authenticated,
             loadUserProfile: () => new Promise(resolve => resolve({ firstName: 'John', lastName: 'Doe' })),
-            logout: (url: string) => {}
+            logout: () => {}
         };
     }
 }
