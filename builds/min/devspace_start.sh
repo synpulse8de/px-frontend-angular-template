@@ -23,14 +23,15 @@ BOLD_TEXT="\033[1m"
 RESET_TEXT="\033[0m"
 
 
-echo -e "${COLOR_BLUE}
+echo -e "${COLOR_BLUE}"
+echo '
 %#%  ____  _     _     ____  _____ ____    ____  _____ _     ____  ____  ____  ____  _____
 %#% /  __\/ \ /\/ \   / ___\/  __// ___\  /  _ \/  __// \ |\/ ___\/  __\/  _ \/   _\/  __/
 %#% |  \/|| | ||| |   |    \|  \  \ \ //  | | \||  \  | | //|    \|  \/|| / \||  /  |  \
 %#% |  __/| \_/|| |_/\\___ ||  /_ / /_\\  | |_/||  /_ | \// \___ ||  __/| |-|||  \_ |  /_
 %#% \_/   \____/\____/\____/\____\\____/  \____/\____\\__/  \____/\_/   \_/ \|\____/\____\
-${COLOR_RESET}
-
+'
+echo -e "${COLOR_RESET}
 Welcome to your development container!
 
 This is how you can work with it:
@@ -52,9 +53,6 @@ ${COLOR_ORANGE}VScode:${COLOR_RESET}
 # Set terminal prompt
 export PS1="\[${COLOR_BLUE}\]devspace\[${COLOR_RESET}\] ./\W \[${COLOR_BLUE}\]\\$\[${COLOR_RESET}\] "
 if [ -z "$BASH" ]; then export PS1="$ "; fi
-
-# Include project's bin/ folder in PATH
-export PATH="./bin:$PATH"
 
 # Open shell
 bash --norc

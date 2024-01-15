@@ -32,7 +32,7 @@ describe('Example Feature 1 Reducer', () => {
     TestBed.configureTestingModule({
       providers: [provideMockStore({ initialState })],
     })
-    store = store
+
     store = TestBed.inject(MockStore)
   })
 

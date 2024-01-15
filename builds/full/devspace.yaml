@@ -1,29 +1,41 @@
 version: v2beta1
-name: Pulse8 YourName Frontend
+name: pulse8-yourname-frontend
 
 # This is a list of `pipelines` that DevSpace can execute (you can define your own)
 pipelines:
   # This is the pipeline for the main command: `devspace dev` (or `devspace run-pipeline dev`)
   dev:
     run: |-
-      run_dependencies --all       # 1. Deploy any projects this project needs (see "dependencies")
-      ensure_pull_secrets --all    # 2. Ensure pull secrets
-      create_deployments --all     # 3. Deploy Helm charts and manifests specfied as "deployments"
-      start_dev app                # 4. Start dev mode "app" (see "dev" section)
+      run_dependencies --all                            # 1. Deploy any projects this project needs (see "dependencies")
+      ensure_pull_secrets --all                         # 2. Ensure pull secrets
+      build_images --all -t $(git describe --always)    # 3. Build, tag (git commit hash) and push all images (see "images")
+      create_deployments --all                          # 4. Deploy Helm charts and manifests specified as "deployments"
+      start_dev app                                     # 5. Start dev mode "app" (see "dev" section)
   # You can run this pipeline via `devspace deploy` (or `devspace run-pipeline deploy`)
   deploy:
     run: |-
       run_dependencies --all                            # 1. Deploy any projects this project needs (see "dependencies")
       ensure_pull_secrets --all                         # 2. Ensure pull secrets
       build_images --all -t $(git describe --always)    # 3. Build, tag (git commit hash) and push all images (see "images")
-      create_deployments --all                          # 4. Deploy Helm charts and manifests specfied as "deployments"
+      create_deployments --all                          # 4. Deploy Helm charts and manifests specified as "deployments"
+
+vars:
+  IMAGE: synpulse8/library/pulse8-yourname-frontend
 
 # This is a list of `images` that DevSpace can build for this project
 # We recommend to skip image building during development (devspace dev) as much as possible
 images:
   app:
-    image: synpulse.jfrog.io/s8-docker/synpulse-group-pulse8-yourname-frontend-master:latest
+    image: ${IMAGE}
     dockerfile: ./Dockerfile
+
+# If you do not configure anything, the local registry will be deployed with the following
+# defaults when the image cannot be pushed and 'kind load docker-image' cannot be used.
+#
+localRegistry:
+  enabled: true
+  namespace: default
+  port: 5000
 
 # This is a list of `deployments` that DevSpace can create for this project
 deployments:
@@ -38,12 +50,15 @@ deployments:
 dev:
   app:
     # Search for the container that runs this image
-    imageSelector: synpulse.jfrog.io/s8-docker/synpulse-group-pulse8-yourname-frontend-master:latest
+    imageSelector: ${IMAGE}
     # Replace the container image with this dev-optimized image (allows to skip image building during development)
     devImage: ghcr.io/loft-sh/devspace-containers/typescript:18-alpine
     # Sync files between the local filesystem and the development container
     sync:
-      - path: ./
+      - path: ./:/app
+        excludePaths:
+          - .git/
+          - .idea/
         uploadExcludePaths:
           - node_modules
     # Open a terminal and use the following command to start it

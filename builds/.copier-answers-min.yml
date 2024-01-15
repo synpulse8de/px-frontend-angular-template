@@ -1,6 +1,7 @@
 # Changes here will be overwritten by Copier
-_commit: v0.0.17-4-g7839cfb
+_commit: v0.0.17-43-gd601a64
 _src_path: .
+add_sonar: false
 auth: false
 build_for_arm: false
 non_store_example: false
@@ -8,5 +9,3 @@ project_desc: Template build min
 project_id: pulse8-yourname-frontend
 project_name: Pulse8 YourName Frontend
 store: false
-add_sonar: false
-sonar_project_key_suffix: pulse8-core-frontend-template
