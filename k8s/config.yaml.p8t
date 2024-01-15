@@ -8,5 +8,5 @@ data:
     }
 kind: ConfigMap
 metadata:
-  name: pulse8-core-angular-app-mytest-config
+  name: {{project_id}}-config
   namespace: default
