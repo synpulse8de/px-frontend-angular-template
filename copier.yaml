@@ -76,7 +76,6 @@ sonar_project_key_suffix:
 
 _exclude:
   - '/.git'
-  - '/package.json'
   - '/copier.yaml'
   - '/builds'
   - '/.github/workflows/template-build*'

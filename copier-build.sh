@@ -10,7 +10,7 @@ build_angular_project () {
     mkdir ./builds/$build_dir
 
     # Use Copier to set up the project
-    copier copy . ./builds/$build_dir --trust --force --answers-file "../$answers_file"
+    copier copy --vcs-ref HEAD . ./builds/$build_dir --trust --force --answers-file "../$answers_file"
 
     # Copy answers file
     cp ./builds/$build_dir/$answers_file ./builds/$answers_file

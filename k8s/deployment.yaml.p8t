@@ -17,7 +17,7 @@ spec:
         - name: synpulse-jfrog-docker-credential
       containers:
         - name: {{project_id}}
-          image: synpulse.jfrog.io/s8-docker/synpulse-group-{{project_id}}-master:latest
+          image: synpulse8/library/{{project_id}}
           imagePullPolicy: Always
           ports:
             - containerPort: 80

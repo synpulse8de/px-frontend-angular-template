@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Authenticate to JFrog Artifactory
         uses: jfrog/setup-jfrog-cli@v3
@@ -27,7 +27,7 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false
+          run_install: true
 
       - name: Get pnpm store directory
         shell: bash
@@ -42,8 +42,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies using pnpm
-        run: pnpm install
+      - name: Run tests and generate coverage report
+        run: pnpm test
 
       - name: Call SPA build and push container workflow
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
@@ -51,22 +51,7 @@ jobs:
           docker-file-path: Dockerfile
           docker-build-context-location: .
           nginx-conf-path: './src/assets/configs/nginx.conf'
+          include-arm64: False
           jfrog-user: ${{ secrets.JFROG_USER }} # no need to change - available in all workflows in the organisation
           jfrog-password: ${{ secrets.JFROG_TOKEN }} # no need to change - available in all workflows in the organisation
 
-      # Cache SonarCloud packages
-      - name: "Cache SonarCloud packages"
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      # Analyze with SonarCloud
-      - name: "Analyze with SonarCloud"
-        uses: SonarSource/sonarcloud-github-action@master
-        with:
-          projectBaseDir: builds/full
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

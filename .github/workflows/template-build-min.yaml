@@ -3,7 +3,10 @@ name: Pulse8 Core Angular Template Min CI
 on:
   push:
     branches:
-      - feature/build-piplines-sonar
+      - master
+  pull_request:
+    branches:
+      - master
 
 defaults:
   run:

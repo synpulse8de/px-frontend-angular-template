@@ -7,5 +7,7 @@ commonLabels:
   env: dev
 
 resources:
+  - config.yaml
   - deployment.yaml
   - ingress.yaml
+  - service.yaml

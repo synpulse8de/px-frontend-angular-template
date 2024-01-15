@@ -1,4 +1,4 @@
-import { MockStore, provideMockStore } from '@ngrx/store/testing'
+import { provideMockStore } from '@ngrx/store/testing'
 import {
   exampleFeature1Reducer,
   ExampleFeature1State,
@@ -15,7 +15,7 @@ import {
 import { MockData } from '../../../../shared/models/mock-data.model'
 
 describe('Example Feature 1 Reducer', () => {
-  let store: MockStore<ExampleFeature1State>
+
   const initialState: ExampleFeature1State = {
     count: 0,
     loading: false,
@@ -32,8 +32,7 @@ describe('Example Feature 1 Reducer', () => {
     TestBed.configureTestingModule({
       providers: [provideMockStore({ initialState })],
     })
-
-    store = TestBed.inject(MockStore)
+    
   })
 
   it('should load mock data entries', fakeAsync(() => {

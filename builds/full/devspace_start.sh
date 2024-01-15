@@ -32,7 +32,6 @@ echo '
 %#% \_/   \____/\____/\____/\____\\____/  \____/\____\\__/  \____/\_/   \_/ \|\____/\____\
 '
 echo -e "${COLOR_RESET}
-
 Welcome to your development container!
 
 This is how you can work with it:
@@ -54,9 +53,6 @@ ${COLOR_ORANGE}VScode:${COLOR_RESET}
 # Set terminal prompt
 export PS1="\[${COLOR_BLUE}\]devspace\[${COLOR_RESET}\] ./\W \[${COLOR_BLUE}\]\\$\[${COLOR_RESET}\] "
 if [ -z "$BASH" ]; then export PS1="$ "; fi
-
-# Include project's bin/ folder in PATH
-export PATH="./bin:$PATH"
 
 # Open shell
 bash --norc
