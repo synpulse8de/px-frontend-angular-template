@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+env:
+  TRIVY_USERNAME: ${% raw %}{{ secrets.JFROG_USER }}{% endraw %}
+  TRIVY_PASSWORD: ${% raw %}{{ secrets.JFROG_TOKEN }}{% endraw %}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -54,6 +58,13 @@ jobs:
           include-arm64: {{ build_for_arm }}
           jfrog-user: ${% raw %}{{ secrets.JFROG_USER }}{% endraw %} # no need to change - available in all workflows in the organisation
           jfrog-password: ${% raw %}{{ secrets.JFROG_TOKEN }}{% endraw %} # no need to change - available in all workflows in the organisation
+
+      - name: "Run Trivy vulnerability scanner"
+        uses: aquasecurity/trivy-action@master
+        if: ${% raw %}{{ github.event_name == 'push' }}{% endraw %}
+        with:
+          image-ref: "synpulse.jfrog.io/s8-docker/synpulse-group-{{project_id}}-main:latest"
+          scan-type: "image"
 {% if add_sonar %}
       # Cache SonarCloud packages
       - name: "Cache SonarCloud packages"
