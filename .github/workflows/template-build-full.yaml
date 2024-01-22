@@ -59,6 +59,7 @@ jobs:
         with:
           docker-build-context-location: ./builds/full
           docker-file-path: ./builds/full/Dockerfile
+          docker-push: ${{ github.event_name == 'push' }}
           nginx-conf-path: './builds/full/src/assets/configs/nginx.conf'
           jfrog-user: ${{ secrets.JFROG_USER }}
           jfrog-password: ${{ secrets.JFROG_TOKEN }}

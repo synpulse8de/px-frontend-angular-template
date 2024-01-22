@@ -3,7 +3,10 @@ name: Pulse8 Core Angular Template CI
 on:
   push:
     branches:
-      - master
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -50,6 +53,7 @@ jobs:
         with:
           docker-file-path: Dockerfile
           docker-build-context-location: .
+          docker-push: ${{ github.event_name == 'push' }}
           nginx-conf-path: './src/assets/configs/nginx.conf'
           include-arm64: False
           jfrog-user: ${{ secrets.JFROG_USER }} # no need to change - available in all workflows in the organisation
