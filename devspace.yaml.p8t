@@ -95,3 +95,26 @@ commands:
 #     tag: v1.0.0
 #   ui:
 #     path: ./ui        # Path-based dependencies (for monorepos)
+
+# Define profiles for different use cases. For more information look here: https://www.devspace.sh/docs/5.x/configuration/profiles/basics
+#profiles:
+#  - name: dev
+#    patches:
+#      - op: replace
+#        path: <your-path-to-replace>
+#        value: <replace-value>
+#
+#  - name: int
+#    patches:
+#      - op: remove
+#        path: <your-path-to-remove>
+#        value: <remove-value>
+#
+#  - name: prod
+#    patches:
+#      - op: add
+#        path: <your-path-to-add>
+#        value: <add-value>
+#
+#
+#defaultProfile: dev

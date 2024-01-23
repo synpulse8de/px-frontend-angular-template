@@ -7,6 +7,6 @@ build_for_arm: false
 project_desc: Template build full
 project_id: pulse8-yourname-frontend
 project_name: Pulse8 YourName Frontend
-sonar_project_key_suffix: pulse8-core-frontend-template
+sonar_project_key_suffix: pulse8-core-frontend-angular-template
 store: true
 store_example: true
