@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+# This is an example on how to apply a patch through profiles (Didn't apply it because it would break the application, it's just for demonstration purposes)
+
+#patches:
+#  - target:
+#      group: apps
+#      version: v1
+#      kind: Deployment
+#      name: deployment.yaml
+#    path: config.yaml
+
+namePrefix: dev-

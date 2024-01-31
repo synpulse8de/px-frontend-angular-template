@@ -12,6 +12,10 @@ defaults:
   run:
     working-directory: ./builds/full
 
+env:
+  TRIVY_USERNAME: ${{ secrets.JFROG_USER }}
+  TRIVY_PASSWORD: ${{ secrets.JFROG_TOKEN }}
+
 jobs:
   buildAndPushImageFull:
     runs-on: ubuntu-latest
@@ -63,6 +67,13 @@ jobs:
           nginx-conf-path: './builds/full/src/assets/configs/nginx.conf'
           jfrog-user: ${{ secrets.JFROG_USER }}
           jfrog-password: ${{ secrets.JFROG_TOKEN }}
+
+      - name: "Run Trivy vulnerability scanner"
+        uses: aquasecurity/trivy-action@master
+        if: ${{ github.event_name == 'push' }}
+        with:
+          image-ref: "synpulse.jfrog.io/s8-docker/synpulse-group-pulse8-core-frontend-angular-template-master:latest"
+          scan-type: "image"
 
       - name: "Cache SonarCloud packages"
         uses: actions/cache@v3
