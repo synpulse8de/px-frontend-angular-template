@@ -60,6 +60,7 @@ jobs:
 
       - name: Call SPA build and push container workflow
         uses: synpulse-group/s8-actions/custom-build-push-container@feature/angular-template
+        timeout-minutes: 10
         with:
           docker-build-context-location: ./builds/full
           docker-file-path: ./builds/full/Dockerfile
