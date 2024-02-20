@@ -29,7 +29,7 @@ import { initializeKeycloak } from './authentication/initializeKeycloak.factory'
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular'
 {%- endif %}
 {% if auth -%}
-import { ENV_CONFIG } from '../assets/utils/keyCloakEnv'
+import { ENV_CONFIG } from '../assets/utils/p8env'
 import { KeyCloakHelperService } from "./shared/services/key-cloak-helper.service";
 {%- endif %}
 

@@ -1,5 +1,5 @@
 import { KeycloakService } from 'keycloak-angular'
-import { KeyCloakEnv } from '../../assets/utils/keyCloakEnv'
+import { P8Env } from '../../assets/utils/p8env'
 import { KeyCloakHelperService } from '../shared/services/key-cloak-helper.service'
 
 /**
@@ -31,7 +31,7 @@ import { KeyCloakHelperService } from '../shared/services/key-cloak-helper.servi
 export function initializeKeycloak(
   keycloak: KeycloakService,
   keyCloakHelperService: KeyCloakHelperService,
-  keyCloakEnv: KeyCloakEnv
+  keyCloakEnv: P8Env
 ): Function {
   return async () => {
     await keycloak.init({

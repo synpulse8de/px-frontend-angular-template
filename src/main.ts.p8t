@@ -3,11 +3,11 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 import { AppModule } from './app/app.module'
 import { environment } from './environments/environment'
 import { enableProdMode } from '@angular/core'
-import { ENV_CONFIG, KeyCloakEnv } from './assets/utils/keyCloakEnv'
+import { ENV_CONFIG, P8Env } from './assets/utils/p8env'
 
 fetch(environment.environmentUrl)
   .then((response) => response.json())
-  .then((env: KeyCloakEnv) => {
+  .then((env: P8Env) => {
     if (environment.production) {
       enableProdMode()
     }

@@ -10,5 +10,6 @@ and this project adheres to [Calendar Versioning](https://calver.org/).
 ### Added
 
 - Added CHANGELOG.md
+- Added dynamic injection of environment variables into Angular 
 
 [Unreleased]: #
