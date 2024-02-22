@@ -6,7 +6,7 @@ import { checkLoginStateActions, setKeycloakUserActions, } from '../../shared/+s
 import { KeycloakProfile } from 'keycloak-js'
 import { ReactiveFormsModule } from "@angular/forms";
 import { InjectionToken } from "@angular/core";
-import { KeyCloakEnv } from "../../../assets/utils/keyCloakEnv";
+import { P8Env } from "../../../assets/utils/p8env";
 import { PieChartComponent } from "./pie-chart/pie-chart.component";
 
 
@@ -15,7 +15,7 @@ const mockKeycloakEnvConfig = {
     "KEYCLOAK_CLIENT_ID": "angular-client-test",
     "KEYCLOAK_REALM": "pulse8_wealth_cockpit"
 };
-const ENV_CONFIG = new InjectionToken<KeyCloakEnv>('Keycloak Environment Configuration');
+const ENV_CONFIG = new InjectionToken<P8Env>('Keycloak Environment Configuration');
 
 
 /**
@@ -29,7 +29,7 @@ describe('HomeComponent', () => {
     let fixture: ComponentFixture<HomeComponent>
     let store: MockStore
     const initialState = {} // Define an initial state for the mock store if necessary.
-    
+
     /**
      * This block runs before each test.
      * It sets up the testing environment, initializes the component, and sets up a mock store.
@@ -43,21 +43,21 @@ describe('HomeComponent', () => {
                 { provide: ENV_CONFIG, useValue: mockKeycloakEnvConfig }
             ],
         }).compileComponents()
-        
+
         // Retrieve the mock store instance.
         store = TestBed.inject(MockStore)
         fixture = TestBed.createComponent(HomeComponent)
         component = fixture.componentInstance
         fixture.detectChanges()
     })
-    
+
     /**
      * Basic test to ensure the component instance is created successfully.
      */
     it('should create', () => {
         expect(component).toBeTruthy()
     })
-    
+
     /**
      * Test to ensure that the component dispatches a check for the Keycloak login state upon initialization.
      */
@@ -68,7 +68,7 @@ describe('HomeComponent', () => {
             checkLoginStateActions.checkKeycloakLoginState()
         )
     })
-    
+
     /**
      * Test to ensure that the component dispatches an action to set the Keycloak user upon initialization.
      */
@@ -77,7 +77,7 @@ describe('HomeComponent', () => {
         component.ngOnInit()
         expect(spy).toHaveBeenCalledWith(setKeycloakUserActions.setKeycloakUser())
     })
-    
+
     /**
      * Test to check if the component correctly selects the current user from the store.
      */
@@ -91,7 +91,7 @@ describe('HomeComponent', () => {
             expect(user).toEqual(mockCurrentUser)
         })
     })
-    
+
     /**
      * Test to verify if the component selects the correct login state from the store.
      */
