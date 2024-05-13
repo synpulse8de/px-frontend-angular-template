@@ -9,5 +9,4 @@ commonLabels:
 resources:
   - config.yaml
   - deployment.yaml
-  - ingress.yaml
   - service.yaml
