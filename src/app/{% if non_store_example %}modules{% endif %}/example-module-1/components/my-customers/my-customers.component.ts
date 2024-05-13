@@ -44,12 +44,14 @@ export class MyCustomersComponent implements OnInit {
   public generateRandomHex(length: number): string {
     const characters: string = '0123456789abcdef'
     let result = ''
-
+    
     for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length)
+      const array = new Uint32Array(1)
+      crypto.getRandomValues(array)
+      const randomIndex = array[0] % characters.length
       result += characters.charAt(randomIndex)
     }
-
+    
     return result
   }
 
