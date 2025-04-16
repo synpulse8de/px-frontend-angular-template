@@ -7,6 +7,7 @@ import { ExampleModule1Service } from '../../services/example-module-1.service'
   selector: 'app-my-customers',
   templateUrl: './my-customers.component.html',
   styleUrls: ['./my-customers.component.scss'],
+  standalone: false,
 })
 export class MyCustomersComponent implements OnInit {
   constructor(private exampleModule1Service: ExampleModule1Service) {}

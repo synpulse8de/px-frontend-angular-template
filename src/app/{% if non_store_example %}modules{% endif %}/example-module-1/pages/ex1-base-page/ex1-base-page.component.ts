@@ -4,5 +4,7 @@ import { Component } from '@angular/core'
   selector: 'app-ex1-base-page',
   templateUrl: './ex1-base-page.component.html',
   styleUrls: ['./ex1-base-page.component.scss'],
+  standalone: false,
 })
-export class Ex1BasePageComponent {}
+export class Ex1BasePageComponent {
+}

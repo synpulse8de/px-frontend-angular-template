@@ -7,6 +7,7 @@ import { ErrorParams } from '../../shared/models/error-params.model'
   selector: 'app-error-page',
   templateUrl: './error-page.component.html',
   styleUrls: ['./error-page.component.scss'],
+  standalone: false,
 })
 export class ErrorPageComponent implements OnInit {
   errorInfo: ErrorEntity = {
@@ -14,13 +15,14 @@ export class ErrorPageComponent implements OnInit {
     type: 'Unknown',
     message: 'An unknown error occurred.',
   }
-
-  constructor(private route: ActivatedRoute) {}
-
+  
+  constructor(private route: ActivatedRoute) {
+  }
+  
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       const errorParams = params as ErrorParams
-
+      
       this.errorInfo = {
         code: errorParams.code || 'Unknown',
         type: errorParams.type || 'Unknown',

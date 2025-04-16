@@ -38,7 +38,7 @@ export class SharedFeatureEffects {
     return this.actions$.pipe(
       ofType(checkLoginStateActions.checkKeycloakLoginState),
       concatMap(() =>
-        from(this.keycloakService.isLoggedIn()).pipe(
+        from(of(this.keycloakService.isLoggedIn())).pipe(
           map((loggedIn: boolean) =>
             checkLoginStateActions.checkKeycloakLoginStateSuccess({ loggedIn })
           ),

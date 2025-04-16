@@ -14,7 +14,7 @@ export const SharedFeatureActions = createActionGroup({
 
 export const changePieChartValue = createAction(
   '[Shared Feature] Change pie chart value',
-  props<{ pieChartValue: number }>()
+  props<{ pieChartValue: number }>(),
 )
 {% if auth -%}
 export const checkLoginStateActions = createActionGroup({

@@ -2,9 +2,9 @@
 /* All styles are implemented with bootstrap grid classes and vanilla css,
  * but you can use your design framework of choice e.g. angular material, primeNg etc.
  * You can add global styles to this file, and also import other style files */
-@import 'src/app/shared/styles/buttons';
-@import 'src/app/shared/styles/card';
-@import 'src/app/shared/styles/input';
+@use 'src/app/shared/styles/buttons';
+@use 'src/app/shared/styles/card';
+@use 'src/app/shared/styles/input';
 {%- endif %}
 
 html,

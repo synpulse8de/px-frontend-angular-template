@@ -5,6 +5,7 @@ import { ExampleModule1Service } from '../../services/example-module-1.service'
   selector: 'app-pie-chart-showcase',
   templateUrl: './pie-chart-showcase.component.html',
   styleUrls: ['./pie-chart-showcase.component.scss'],
+  standalone: false,
 })
 export class PieChartShowcaseComponent implements OnInit {
   pieChartValue = 0

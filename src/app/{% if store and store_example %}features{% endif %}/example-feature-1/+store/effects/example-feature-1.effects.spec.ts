@@ -2,29 +2,32 @@ import { TestBed } from '@angular/core/testing'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { Actions } from '@ngrx/effects'
 import { of, throwError } from 'rxjs'
-import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { provideHttpClientTesting } from '@angular/common/http/testing'
 import {
   addDataEntryActions,
   loadMockDataEntriesActions,
 } from '../actions/example-feature-1.actions'
 import { ExampleFeature1Effects } from './example-feature-1.effects'
 import { ExampleFeature1Service } from '../../services/example-feature1.service'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ExampleFeature1Effects', () => {
   let actions$: Actions
   let effects: ExampleFeature1Effects
   let service: ExampleFeature1Service
-
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         ExampleFeature1Effects,
         provideMockActions(() => actions$),
         ExampleFeature1Service,
-      ],
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ]
     })
-
+    
     effects = TestBed.inject(ExampleFeature1Effects)
     service = TestBed.inject(ExampleFeature1Service)
   })

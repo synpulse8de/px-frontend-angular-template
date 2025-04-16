@@ -6,9 +6,11 @@ import { selectPieChartValue } from '../../../../shared/+store/selectors/shared-
   selector: 'app-pie-chart-showcase',
   templateUrl: './pie-chart-showcase.component.html',
   styleUrls: ['./pie-chart-showcase.component.scss'],
+  standalone: false,
 })
 export class PieChartShowcaseComponent {
   pieChartValue$ = this.store.select(selectPieChartValue)
-
-  constructor(private store: Store) {}
+  
+  constructor(private store: Store) {
+  }
 }

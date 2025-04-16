@@ -5,6 +5,7 @@ import { ExampleModule1Service } from '../../services/example-module-1.service'
   selector: 'app-count',
   templateUrl: './count.component.html',
   styleUrls: ['./count.component.scss'],
+  standalone: false,
 })
 export class CountComponent implements OnInit {
   protected count: number = 0
