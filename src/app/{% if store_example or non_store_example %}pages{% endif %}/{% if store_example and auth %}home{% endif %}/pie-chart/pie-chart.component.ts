@@ -9,29 +9,31 @@ import { selectPieChartValue } from '../../../shared/+store/selectors/shared-fea
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.scss'],
+  standalone: false,
 })
 export class PieChartComponent implements OnInit, AfterViewInit {
   protected percentageVariable$ = this.store.select(selectPieChartValue) // Set the default percentage
   protected colorVariable: string = 'orange' // Set the default color
-
+  
   protected pieFormGroup!: FormGroup
-
-  constructor(private store: Store) {}
-
+  
+  constructor(private store: Store) {
+  }
+  
   ngOnInit(): void {
     this.pieFormGroup = this.initFormGroup()
     this.percentageVariable$.subscribe(
-      (inputValue) =>
-        this.pieFormGroup.get('percentageInput')?.setValue(inputValue)
+        (inputValue) =>
+            this.pieFormGroup.get('percentageInput')?.setValue(inputValue),
     )
   }
-
+  
   private initFormGroup() {
     return new FormGroup({
       percentageInput: new FormControl(),
     })
   }
-
+  
   private setFormGroupListeners() {
     this.pieFormGroup
       .get('percentageInput')
@@ -47,7 +49,7 @@ export class PieChartComponent implements OnInit, AfterViewInit {
         }
       })
   }
-
+  
   ngAfterViewInit(): void {
     this.setFormGroupListeners()
   }

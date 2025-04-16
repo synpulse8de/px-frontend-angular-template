@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { KeycloakService } from 'keycloak-angular'
-import jwtDecode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { KeycloakToken } from '../models/keycloak-token'
-import { KeycloakUserProfile } from '../models/keycloak-user-profile'
 import { BehaviorSubject, Observable } from 'rxjs'
+import { KeycloakUserProfile } from '../models/keycloak-user-profile'
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +12,11 @@ export class KeyCloakHelperService {
   private _userProfile: BehaviorSubject<KeycloakUserProfile> =
     new BehaviorSubject<KeycloakUserProfile>({})
   private _roles: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([])
-  private _attributes: BehaviorSubject<{ [key: string]: string } | undefined> =
-    new BehaviorSubject<
-      | {
-          [key: string]: string
-        }
-      | undefined
-    >({})
+  private _attributes: BehaviorSubject<Record<string, unknown> | undefined> =
+    new BehaviorSubject<Record<string, unknown> | undefined>({})
 
-  constructor(private keycloak: KeycloakService) {}
+  constructor(private keycloak: KeycloakService) {
+  }
 
   setUser(): void {
     this.keycloak
@@ -41,7 +37,7 @@ export class KeyCloakHelperService {
   }
 
   // This observable returns the custom attributes
-  getAttributes(): Observable<{ [key: string]: string } | undefined> {
+  getAttributes(): Observable<Record<string, unknown> | undefined> {
     return this.attributes.asObservable()
   }
 
@@ -77,12 +73,12 @@ export class KeyCloakHelperService {
   }
 
   private get attributes(): BehaviorSubject<
-    { [p: string]: string } | undefined
+    Record<string, unknown> | undefined
   > {
     return this._attributes
   }
 
-  private set attributes(value: { [p: string]: string } | undefined) {
+  private set attributes(value: Record<string, unknown> | undefined) {
     this._attributes.next(value)
   }
 }

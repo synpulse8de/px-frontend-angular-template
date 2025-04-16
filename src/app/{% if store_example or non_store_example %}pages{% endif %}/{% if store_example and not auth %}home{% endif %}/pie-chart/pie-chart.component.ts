@@ -9,6 +9,7 @@ import { selectPieChartValue } from '../../../shared/+store/selectors/shared-fea
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.scss'],
+  standalone: false,
 })
 export class PieChartComponent implements OnInit, AfterViewInit {
   protected percentageVariable$ = this.store.select(selectPieChartValue) // Set the default percentage

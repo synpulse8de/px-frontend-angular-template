@@ -1,4 +1,4 @@
-import { {% if auth -%}APP_INITIALIZER,{%- endif -%} NgModule } from '@angular/core'
+import { {% if auth -%}inject, provideAppInitializer,{%- endif -%} NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -7,7 +7,7 @@ import { environment } from '../environments/environment'
 {% endif -%}
 import { ReactiveFormsModule } from '@angular/forms'
 import { SharedModule } from './shared/shared.module'
-import { HttpClientModule } from '@angular/common/http'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 {% if store -%}
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
@@ -46,7 +46,6 @@ import { KeyCloakHelperService } from "./shared/services/key-cloak-helper.servic
   imports: [
     AppRoutingModule,
     BrowserModule,
-    HttpClientModule,
     SharedModule,
     ReactiveFormsModule,
     {% if auth -%}
@@ -62,6 +61,7 @@ import { KeyCloakHelperService } from "./shared/services/key-cloak-helper.servic
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
+      connectInZone: true
     }),
     {%- endif %}
     {% if store -%}
@@ -69,20 +69,18 @@ import { KeyCloakHelperService } from "./shared/services/key-cloak-helper.servic
     {%- endif %}
     {% if store and store_example -%}
     EffectsModule.forFeature([SharedFeatureEffects]),
-    {%- endif %}
-    {%- if store and store_example -%}
     ExampleFeature1Module,
     {%- endif %}
   ],
-  {% if auth -%}providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService, KeyCloakHelperService, ENV_CONFIG],
-    },
-  ],
+  providers: [
+  {% if auth -%}
+    provideAppInitializer(() => {
+      const initializerFn = (initializeKeycloak)(inject(KeycloakService), inject(KeyCloakHelperService), inject(ENV_CONFIG))
+      return initializerFn()
+    }),
   {%- endif %}
+  provideHttpClient(withInterceptorsFromDi()),
+  ],
   bootstrap: [AppComponent],
   exports: [],
 })

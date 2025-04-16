@@ -1,5 +1,5 @@
 import { KeycloakProfile } from 'keycloak-js'
 
 export interface KeycloakUserProfile extends KeycloakProfile {
-  attributes?: { [key: string]: string }
+  attributes?: Record<string, unknown> | undefined
 }

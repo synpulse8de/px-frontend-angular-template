@@ -7,6 +7,7 @@ import { ExampleModule1Service } from "../../../modules/example-module-1/service
     selector: 'app-pie-chart',
     templateUrl: './pie-chart.component.html',
     styleUrls: ['./pie-chart.component.scss'],
+    standalone: false,
 })
 export class PieChartComponent implements OnInit, AfterViewInit {
     protected percentageVariable: number = 0;
