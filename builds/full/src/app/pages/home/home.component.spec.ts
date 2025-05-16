@@ -20,7 +20,7 @@ const ENV_CONFIG = new InjectionToken<KeyCloakEnv>('Keycloak Environment Configu
 
 /**
  * This test suite focuses on the `HomeComponent`.
- * `HomeComponent` is presumably the main landing or dashboard page of the application.
+ * `HomeComponent` is the main landing page of the application.
  * The tests aim to ensure the correct interaction with the NgRx store, particularly
  * regarding user authentication and profile information.
  */

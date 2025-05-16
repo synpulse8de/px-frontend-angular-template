@@ -2,9 +2,23 @@
 /* All styles are implemented with bootstrap grid classes and vanilla css,
  * but you can use your design framework of choice e.g. angular material, primeNg etc.
  * You can add global styles to this file, and also import other style files */
+{% if not material -%}
 @use 'src/app/shared/styles/buttons';
+{%- endif %}
 @use 'src/app/shared/styles/card';
+{% if not material -%}
 @use 'src/app/shared/styles/input';
+{%- endif %}
+{%- endif %}
+
+{% if material -%}
+// Import material icons from local package, this package is automatically maintained via script, so it always has
+// the latest material icons https://github.com/marella/material-icons
+@use 'material-icons/iconfont/material-icons';
+// Import Font
+@use "assets/fonts/fonts";
+// Import custom Material Component Styles
+@use "assets/theming/custom-theme";
 {%- endif %}
 
 html,
@@ -15,10 +29,11 @@ body {
   height: 100vh;
   margin: 0;
 }
-
+{% if not material -%}
 * {
   font-family: Raleway, sans-serif !important;
 }
+{%- endif %}
 
 .overflow-ellipsis {
   text-overflow: ellipsis;
@@ -37,3 +52,16 @@ h5,
 h6 {
   margin-top: 0;
 }
+
+{% if material and (store_example or non_store_example) -%}
+.loading-overlay {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: light-dark(rgba(225, 225, 225, 0.3), rgba(30, 30, 30, 0.3));
+  z-index: 1000;
+}
+{%- endif %}

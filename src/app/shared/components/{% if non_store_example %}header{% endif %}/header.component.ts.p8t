@@ -4,18 +4,53 @@ import { KeycloakService } from 'keycloak-angular'
 import { LoginService } from '../../services/login.service'
 import { KeycloakProfile } from 'keycloak-js'
 {%- endif %}
+{% if material -%}
+import { MatToolbar } from '@angular/material/toolbar'
+import { MatButton, MatIconButton } from '@angular/material/button'
+import { MatIcon } from '@angular/material/icon'
+import { RouterLink } from '@angular/router'
+import { NgIf } from '@angular/common'
+import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle'
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
+import { OverlayContainer } from '@angular/cdk/overlay'
+{%- endif %}
 
 @Component({
   selector: 'app-header',
+  {% if material -%}
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatIcon,
+    RouterLink,
+    MatButton,
+    NgIf,
+    MatSlideToggle,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem
+  ],
+  {%- endif%}
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  standalone: false,
+  standalone: {% if material -%}true{%- endif -%}{%- if not material -%}false{%- endif -%},
 })
 export class HeaderComponent implements OnInit {
-  constructor({% if auth -%}
-      private keycloakService: KeycloakService,
-      private loginService: LoginService
-      {%- endif -%}
+  {% if material -%}
+  isDark = false
+  private darkClass = 'dark-theme'
+  private lightClass = 'light-theme'
+  private mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
+  {%- endif%}
+
+  constructor(
+  {% if auth -%}
+    private keycloakService: KeycloakService,
+    private loginService: LoginService,
+  {%- endif %}
+  {% if material -%}
+    private overlay: OverlayContainer
+  {%- endif %}
   ) {
   }
 {% if auth -%}
@@ -32,6 +67,23 @@ export class HeaderComponent implements OnInit {
           .catch((err: any) => console.log(err))
     }
     {%- endif -%}
+    {% if material -%}
+    const saved = localStorage.getItem('darkMode')
+    if (saved !== null) {
+      this.isDark = saved === 'true'
+    } else {
+      this.isDark = this.mediaQueryList.matches
+    }
+
+    this.setDarkMode(this.isDark)
+
+    this.mediaQueryList.addEventListener('change', e => {
+      if (localStorage.getItem('darkMode') === null) {
+        this.isDark = e.matches
+        this.setDarkMode(this.isDark)
+      }
+    })
+    {%- endif %}
   }
 
   protected isLoggedIn(): boolean | undefined {
@@ -67,4 +119,27 @@ export class HeaderComponent implements OnInit {
     this.keycloakService.logout('http://localhost:4200/home')
   {%- endif -%}
   }
+
+  {% if material -%}
+  sliderChange($event: MatSlideToggleChange) {
+    this.isDark = $event.checked
+    this.setDarkMode(this.isDark)
+    localStorage.setItem('darkMode', String(this.isDark))
+  }
+
+  private setDarkMode(shouldBeDark: boolean) {
+    const root = document.documentElement
+    if (shouldBeDark) {
+      root.classList.add(this.darkClass)
+      this.overlay.getContainerElement().classList.add(this.darkClass)
+      root.classList.remove(this.lightClass)
+      this.overlay.getContainerElement().classList.remove(this.lightClass)
+    } else {
+      root.classList.add(this.lightClass)
+      this.overlay.getContainerElement().classList.add(this.lightClass)
+      root.classList.remove(this.darkClass)
+      this.overlay.getContainerElement().classList.remove(this.darkClass)
+    }
+  }
+  {%- endif %}
 }

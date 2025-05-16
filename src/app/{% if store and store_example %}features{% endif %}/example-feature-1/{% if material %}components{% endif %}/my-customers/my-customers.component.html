@@ -1,0 +1,145 @@
+<mat-card>
+  <mat-card-header><h3>My Customers</h3></mat-card-header>
+  <mat-card-content>
+    <p class="mt-0">
+      Here is a simple example of a list that interacts with the store. You can
+      remove and add Entries as you please. Everything you do will be visible
+      inside the Redux dev-tools
+    </p>
+    <div class="position-relative" [ngClass]="(userDataLoadingState$| async) ? 'spinner-container' : '' ">
+      <table mat-table [dataSource]="( initLoadingState$| async ) ? skeletonRows : entries" class="mb-3">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                          [checked]=" (isAllSelected() | async)"
+                          [disabled]="initLoadingState$| async"
+                          [indeterminate]="!(isAllSelected() |async) && (hasSelection() | async)"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" >
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="selectionToggle($event, row)"
+                          [checked]="isSelected(row) | async"
+                          [disabled]="initLoadingState$| async"
+                          data-cy="customer-checkbox"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="ID">
+          <th mat-header-cell *matHeaderCellDef> ID</th>
+          <td mat-cell *matCellDef="let entry">
+            <ng-container *ngIf="initLoadingState$ | async; else idValue">
+              <div class="skeleton-placeholder"></div>
+            </ng-container>
+            <ng-template #idValue>
+              {{ entry?.id }}
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name</th>
+          <td mat-cell *matCellDef="let element" data-cy="customer-name">
+            <ng-container *ngIf="initLoadingState$ | async; else nameValue">
+              <div class="skeleton-placeholder"></div>
+            </ng-container>
+            <ng-template #nameValue>
+              {{ element?.name }}
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <!-- Age Column -->
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef> Age</th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="initLoadingState$ | async; else ageValue">
+              <div class="skeleton-placeholder"></div>
+            </ng-container>
+            <ng-template #ageValue>
+              {{ element?.age }}
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <!-- E-Mail Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> E-Mail</th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="initLoadingState$ | async; else emailValue">
+              <div class="skeleton-placeholder"></div>
+            </ng-container>
+            <ng-template #emailValue>
+              {{ element?.email }}
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" data-cy="customer-entry"></tr>
+
+      </table>
+
+      <div *ngIf="userDataLoadingState$ | async"
+        class="loading-overlay"
+      >
+        <div
+          class="d-flex flex-column flex-grow-1 align-items-center justify-content-center"
+        >
+          <mat-spinner color="warn" diameter="200"></mat-spinner>
+        </div>
+      </div>
+    </div>
+
+    <div class="col mb-3">
+      <button
+        mat-flat-button
+        data-cy="remove-customers-button"
+        class="error"
+        [disabled]="!(hasSelection()|async)"
+        (click)="removeCustomers()"
+      >
+        Remove Customer(s)
+      </button>
+    </div>
+
+    <div class="d-flex flex-grow-1 flex-column">
+      <h5>Add entry</h5>
+      <div class="row pb-3" [formGroup]="newPersonFormGroup">
+        <mat-form-field class="col-2">
+          <mat-label>Name</mat-label>
+          <input matInput data-cy="new-person-name" type="text" formControlName="name" />
+        </mat-form-field>
+        <mat-form-field class="col-1">
+          <mat-label>Age</mat-label>
+          <input matInput data-cy="new-person-age" type="text" formControlName="age" />
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label>E-Mail</mat-label>
+          <input matInput data-cy="new-person-email" type="text" formControlName="email" />
+        </mat-form-field>
+      </div>
+      <div class="d-flex">
+        <button
+          mat-flat-button
+          data-cy="add-customer-button"
+          [disabled]="this.newPersonFormGroup.invalid"
+          (click)="addCustomer()"
+        >
+          Add Customer
+        </button>
+
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

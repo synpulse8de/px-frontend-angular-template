@@ -1,0 +1,12 @@
+<div class="card">
+  <h3>Basic Showcase Feature</h3>
+  <p>
+    Here we can see the change value from the
+    <a routerLink="/home">home</a> tab.
+  </p>
+  <p>
+    <b data-cy="piechart-value">
+      Pie Chart Value: {% raw %}{{pieChartValue}}{% endraw %}
+    </b>
+  </p>
+</div>

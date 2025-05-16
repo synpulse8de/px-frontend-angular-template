@@ -29,6 +29,10 @@
               "src/assets"
             ],
             "styles": [
+              {% if material -%}
+              "src/assets/theming/_theme-colors.scss",
+              "./node_modules/material-icons/css/material-icons.css",
+              {%- endif %}
               "src/styles.scss",
               "./node_modules/bootstrap/dist/css/bootstrap-grid.min.css",
               "./node_modules/bootstrap/dist/css/bootstrap-utilities.css"
@@ -104,6 +108,9 @@
               "src/assets"
             ],
             "styles": [
+            {% if material -%}
+              "@angular/material/prebuilt-themes/azure-blue.css",
+            {%- endif %}
               "src/styles.scss"
             ],
             "scripts": [],

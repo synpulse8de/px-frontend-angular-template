@@ -1,0 +1,104 @@
+@use '@angular/material' as mat;
+@use 'src/assets/theming/theme-colors';
+@use 'src/assets/theming/system-overwrites';
+
+
+// This part here is responsible for the dark and light theme. It should be triggered by appending a class to the
+// html tag. In this case the class is called 'dark-theme'.
+
+
+html {
+  // DARK THEME
+  &.dark-theme {
+    color-scheme: dark;
+    @include mat.theme((
+      // here you can choose which palette should be used as primary and as 'accent',
+      // from your previously defined palettes for dark mode
+            color: (
+                    primary: theme-colors.$secondary-palette,
+                    tertiary: theme-colors.$tertiary-palette,
+            ),
+      // Its also possible to define a different typography and use it when switching between light and dark mode
+            typography: theme-colors.$custom-typography,
+            density: 0,
+    ));
+
+  }
+
+  &.light-theme {
+    // LIGHT THEME (standard)
+    color-scheme: light;
+    @include mat.theme((
+      // here you can choose which palette should be used as primary and as 'accent',
+      // from your previously defined palettes for light mode
+            color: (
+                    primary: theme-colors.$primary-palette,
+                    tertiary: mat.$blue-palette,
+            ),
+            typography: theme-colors.$custom-typography,
+            density: 0,
+    ));
+  }
+
+  &.light-theme, &.dark-theme {
+    // https://stackoverflow.com/questions/79410996/angular-material-19-mat-typography-not-applying-in-custom-theme
+    @include mat.typography-hierarchy(
+                    mat.define-theme(
+                                    (
+                                            typography: (
+                                                    use-system-variables: true,
+                                                    system-variables-prefix: mat-sys
+                                            )
+                                    )
+                    )
+    );
+
+    @include mat.theme-overrides((
+    // This is the place to overwrite system-variables. These have to be used with care because
+            //'corner-full': system-overwrites.$corner-full,
+    ));
+  }
+
+}
+
+
+// The variables for the overwrites are found in each component in the documentation under the 'styling' tab
+// for example for buttons: https://material.angular.dev/components/button/styling
+// Setting these variables, will change the component project-wide. These overwrites can also be scoped
+// for components or classes.
+
+:root {
+  // BUTTONS
+  @include mat.button-overrides((
+          filled-container-shape: system-overwrites.$corner-full,
+    //filled-container-color  : var(--mat-sys-error-container),
+    //filled-label-text-color : var(--mat-sys-on-error-container),
+    //filled-container-color: var(--mat-sys-tertiary),
+    //filled-label-text-color: var(--mat-sys-on-tertiary),
+
+  ));
+
+  button.error {
+    @include mat.button-overrides((
+            filled-container-color : var(--mat-sys-on-error-container),
+            filled-label-text-color : var(--mat-sys-error-container),
+      //filled-container-color: var(--mat-sys-tertiary),
+      //filled-label-text-color: var(--mat-sys-on-tertiary),
+    ));
+  }
+
+  // TOOLBAR
+  @include mat.toolbar-overrides((
+          container-background-color: var(--mat-sys-surface-bright),
+          container-text-color: var(--mat-sys-on-surface-variant),
+          standard-height: 80px,
+  ));
+
+  mat-toolbar, mat-card {
+    box-shadow: var(--mat-sys-level2)
+  }
+
+  //...
+
+}
+

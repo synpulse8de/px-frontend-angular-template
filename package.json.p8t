@@ -17,14 +17,19 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.2.6",
-    "@angular/common": "^19.2.6",
-    "@angular/compiler": "^19.2.6",
-    "@angular/core": "^19.2.6",
-    "@angular/forms": "^19.2.6",
-    "@angular/platform-browser": "^19.2.6",
-    "@angular/platform-browser-dynamic": "^19.2.6",
-    "@angular/router": "^19.2.6",
+    {% if material -%}
+    "@angular/cdk": "19.2.16",
+    "@angular/material": "19.2.16",
+    "material-icons": "^1.13.14",
+    {%- endif %}
+    "@angular/animations": "^19.2.10",
+    "@angular/common": "^19.2.10",
+    "@angular/compiler": "^19.2.10",
+    "@angular/core": "^19.2.10",
+    "@angular/forms": "^19.2.10",
+    "@angular/platform-browser": "^19.2.10",
+    "@angular/platform-browser-dynamic": "^19.2.10",
+    "@angular/router": "^19.2.10",
     {% if store -%}
     "@ngrx/data": "^19.1.0",
     "@ngrx/effects": "^19.1.0",
@@ -44,16 +49,16 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.2.7",
-    "@angular/cli": "~19.2.7",
-    "@angular/compiler-cli": "^19.2.6",
+    "@angular-devkit/build-angular": "^19.2.12",
+    "@angular/cli": "~19.2.12",
+    "@angular/compiler-cli": "^19.2.10",
     {% if store -%}
     "@ngrx/schematics": "^19.1.0",
     "@ngrx/store-devtools": "^19.1.0",
     {%- endif %}
     "@types/jasmine": "~5.1.7",
     "husky": "^8.0.3",
-    "cypress": "^14.3.0",
+    "cypress": "^14.3.3",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.2",
     "karma-chrome-launcher": "~3.2.0",

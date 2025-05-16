@@ -1,0 +1,63 @@
+import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { FormControl, FormGroup{%- if material -%},FormsModule, ReactiveFormsModule{%- endif -%} } from '@angular/forms'
+import { debounceTime } from 'rxjs'
+import { ExampleModule1Service } from "../../../modules/example-module-1/services/example-module-1.service";
+{% if material -%}
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input'
+import { MatCard } from '@angular/material/card'
+{%- endif %}
+
+@Component({
+    selector: 'app-pie-chart',
+    {% if material -%}
+    imports: [
+      FormsModule,
+      ReactiveFormsModule,
+      MatFormField,
+      MatLabel,
+      MatCard,
+      MatInput,
+    ],
+    {%- endif %}
+    templateUrl: './pie-chart.component.html',
+    styleUrls: ['./pie-chart.component.scss'],
+    standalone: {%- if material -%}true{%- endif -%}{%- if not material -%}false{%- endif -%},
+})
+export class PieChartComponent implements OnInit, AfterViewInit {
+    protected percentageVariable: number = 0;
+    protected colorVariable: string = 'orange' // Set the default color
+
+    protected pieFormGroup!: FormGroup
+
+    constructor(protected exampleModule1Service: ExampleModule1Service) {
+    }
+
+    ngOnInit(): void {
+        this.pieFormGroup = this.initFormGroup()
+        this.percentageVariable = this.exampleModule1Service.pieChartValue
+    }
+
+    private initFormGroup() {
+        return new FormGroup({
+            percentageInput: new FormControl(),
+        })
+    }
+
+    private setFormGroupListeners() {
+        this.pieFormGroup
+            .get('percentageInput')
+            ?.valueChanges.pipe(debounceTime(100))
+            .subscribe((inputValue) => {
+                const inputNumber = Number(inputValue)
+                if (inputNumber && inputNumber <= 100 && inputNumber >= 0) {
+                    this.exampleModule1Service.pieChartValue = inputNumber;
+                } else {
+                    this.exampleModule1Service.pieChartValue = 0;
+                }
+            })
+    }
+
+    ngAfterViewInit(): void {
+        this.setFormGroupListeners()
+    }
+}

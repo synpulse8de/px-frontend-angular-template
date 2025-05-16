@@ -1,0 +1,64 @@
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing'
+import { KeycloakService } from 'keycloak-angular'
+import { KeycloakProfile } from 'keycloak-js'
+import { HomeComponent } from './home.component'
+
+describe('HomeComponent', () => {
+  let component: HomeComponent
+  let fixture: ComponentFixture<HomeComponent>
+  let mockKeycloakService: jasmine.SpyObj<KeycloakService>
+  let kcInstance: { loadUserProfile: jasmine.Spy }
+
+  const mockProfile: KeycloakProfile = {
+    firstName: 'Jane',
+    lastName: 'Doe',
+  }
+  const mockLoggedIn = true
+
+  beforeEach(waitForAsync(() => {
+    // stub out the Keycloak instance’s loadUserProfile
+    kcInstance = {
+      loadUserProfile: jasmine
+        .createSpy('loadUserProfile')
+        .and.returnValue(Promise.resolve(mockProfile)),
+    }
+    // create a spy object for KeycloakService
+    mockKeycloakService = jasmine.createSpyObj('KeycloakService', [
+      'isLoggedIn',
+      'getKeycloakInstance',
+    ])
+
+    mockKeycloakService.isLoggedIn.and.returnValue(mockLoggedIn)
+    mockKeycloakService.getKeycloakInstance.and.returnValue(
+      kcInstance as any
+    )
+
+    TestBed.configureTestingModule({
+      imports: [HomeComponent], // standalone component
+      providers: [{ provide: KeycloakService, useValue: mockKeycloakService }],
+    }).compileComponents()
+  }))
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HomeComponent)
+    component = fixture.componentInstance
+  })
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+
+  it('should call isLoggedIn in constructor and set loggedIn correctly', () => {
+    expect(mockKeycloakService.isLoggedIn).toHaveBeenCalled()
+    expect(component.loggedIn).toBe(mockLoggedIn)
+  })
+
+  it('should load user profile on init and update currentUser', fakeAsync(() => {
+    component.ngOnInit()
+    // flush the promise returned by loadUserProfile()
+    tick()
+    expect(mockKeycloakService.getKeycloakInstance).toHaveBeenCalled()
+    expect(kcInstance.loadUserProfile).toHaveBeenCalled()
+    expect(component.currentUser).toEqual(mockProfile)
+  }))
+})

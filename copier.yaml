@@ -45,6 +45,12 @@ store:
   help: Do you want to use ngrx for state management?
   default: no
 
+# Use Angular Material
+material:
+  type: bool
+  help: Do you want to use Angular Material?
+  default: yes
+
 # Add store examples
 store_example:
   type: bool
@@ -58,21 +64,6 @@ non_store_example:
   help: Do you want some example implementations for a new angular project?
   when: "{{not store}}"
   default: no
-
-add_sonar:
-  type: bool
-  help: Add SonarCloud scan github action ?
-  default: false
-
-sonar_project_key_suffix:
-  type: str
-  help: Sonar project key suffix (synpulse-group_<suffix>)
-  when: "{{ add_sonar }}"
-  default: "{{ project_id }}"
-  validator: >-
-    {% if not (sonar_project_key_suffix | regex_search('^[a-z0-9\-\_]*$')) %}
-    Sonar project key suffix must contain only lowercase letters, digits, dashes or underscores.
-    {% endif %}
 
 _exclude:
   - '/.git'

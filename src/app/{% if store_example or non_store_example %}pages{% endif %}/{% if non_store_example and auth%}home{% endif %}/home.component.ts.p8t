@@ -1,0 +1,30 @@
+import { Component, OnInit } from '@angular/core'
+import { KeycloakService } from 'keycloak-angular'
+import { KeycloakProfile } from 'keycloak-js'
+{% if material -%}
+import { PieChartComponent } from './pie-chart/pie-chart.component'
+import { NgIf } from '@angular/common'
+{%- endif %}
+
+
+@Component({
+  selector: 'app-home',{% if material -%}
+  imports: [ NgIf, PieChartComponent ],
+  {%- endif %}
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  standalone: {%- if material -%}true{%- endif -%}{%- if not material -%}false{%- endif -%},
+})
+export class HomeComponent implements OnInit {
+  constructor(private keycloakService: KeycloakService) {
+  }
+
+  currentUser: KeycloakProfile = {}
+  loggedIn = this.keycloakService.isLoggedIn()
+
+  ngOnInit() {
+    this.keycloakService.getKeycloakInstance().loadUserProfile().then((profile) => {
+      this.currentUser = profile
+    })
+  }
+}

@@ -1,0 +1,118 @@
+import { Component, OnInit } from '@angular/core'
+import { MatToolbar } from '@angular/material/toolbar'
+import { MatIcon } from '@angular/material/icon'
+import { MatButton, MatIconButton } from '@angular/material/button'
+import { RouterLink } from '@angular/router'
+import { NgIf } from '@angular/common'
+import { KeycloakService } from 'keycloak-angular'
+import { LoginService } from '../../services/login.service'
+import { KeycloakProfile } from 'keycloak-js'
+import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle'
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu'
+import { OverlayContainer } from '@angular/cdk/overlay'
+
+@Component({
+  selector: 'app-header',
+  imports: [
+    MatToolbar,
+    MatIconButton,
+    MatIcon,
+    RouterLink,
+    MatButton,
+    NgIf,
+    MatSlideToggle,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem
+  ],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
+  standalone: true,
+})
+export class HeaderComponent implements OnInit {
+  isDark = false
+  private darkClass = 'dark-theme'
+  private lightClass = 'light-theme'
+  private mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
+
+
+  constructor(
+    private keycloakService: KeycloakService,
+    private loginService: LoginService,
+    private overlay: OverlayContainer,
+  ) {
+  }
+
+  private currentUser: KeycloakProfile = { firstName: '', lastName: '' }
+
+  ngOnInit(): void {
+    if (this.isLoggedIn()) {
+      this.keycloakService
+        .getKeycloakInstance()
+        .loadUserProfile()
+        .then((i) => (this.currentUser = i))
+        .catch((err) => console.log(err))
+    }
+
+    const saved = localStorage.getItem('darkMode')
+    if (saved !== null) {
+      this.isDark = saved === 'true'
+    } else {
+      this.isDark = this.mediaQueryList.matches
+    }
+
+    this.setDarkMode(this.isDark)
+
+    this.mediaQueryList.addEventListener('change', e => {
+      if (localStorage.getItem('darkMode') === null) {
+        this.isDark = e.matches
+        this.setDarkMode(this.isDark)
+      }
+    })
+
+  }
+
+  protected isLoggedIn(): boolean | undefined {
+    return this.keycloakService.getKeycloakInstance().authenticated
+  }
+
+  protected login(): void {
+    this.loginService.login()
+  }
+
+  protected getUser(): string {
+    if (this.currentUser) {
+      const firstName = this.currentUser.firstName
+      const lastName = this.currentUser.lastName
+      if (firstName && lastName) {
+        return firstName + ' ' + lastName + ' ' + '!'
+      }
+    }
+    return ''
+  }
+
+  protected logout(): void {
+    this.keycloakService.logout('http://localhost:4200/home')
+  }
+
+  sliderChange($event: MatSlideToggleChange) {
+    this.isDark = $event.checked
+    this.setDarkMode(this.isDark)
+    localStorage.setItem('darkMode', String(this.isDark))
+  }
+
+  private setDarkMode(shouldBeDark: boolean) {
+    const root = document.documentElement
+    if (shouldBeDark) {
+      root.classList.add(this.darkClass)
+      this.overlay.getContainerElement().classList.add(this.darkClass)
+      root.classList.remove(this.lightClass)
+      this.overlay.getContainerElement().classList.remove(this.lightClass)
+    } else {
+      root.classList.add(this.lightClass)
+      this.overlay.getContainerElement().classList.add(this.lightClass)
+      root.classList.remove(this.darkClass)
+      this.overlay.getContainerElement().classList.remove(this.darkClass)
+    }
+  }
+}

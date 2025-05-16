@@ -1,0 +1,38 @@
+@use '@angular/material' as mat;
+@use 'src/assets/theming/theme-colors';
+@use 'src/assets/theming/system-overwrites';
+
+:host {
+  table {
+    @include mat.elevation(4);
+  }
+
+  .spinner-class{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+}
+
+.skeleton-placeholder {
+  background: linear-gradient(
+                  90deg,
+                  system-overwrites.$skeleton-base 25%,
+                  system-overwrites.$skeleton-highlight 50%,
+                  system-overwrites.$skeleton-base 75%
+  );
+  background-size: 200% 100%;
+  animation: loading-pulse 3s infinite;
+  height: 22px; /* Adjust height as needed */
+  width: 100%; // Use full width of the column
+  border-radius: 4px; // Add border-radius for a nicer look
+}
+
+@keyframes loading-pulse {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

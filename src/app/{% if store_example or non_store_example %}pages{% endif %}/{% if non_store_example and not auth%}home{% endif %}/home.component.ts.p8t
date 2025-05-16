@@ -1,0 +1,22 @@
+import { Component, OnInit } from '@angular/core'
+{% if material -%}
+import { PieChartComponent } from './pie-chart/pie-chart.component'
+{%- endif %}
+
+
+@Component({
+    selector: 'app-home',
+    {% if material -%}
+    imports: [ PieChartComponent ],
+    {%- endif %}
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: {%- if material -%}true{%- endif -%}{%- if not material -%}false{%- endif -%},
+})
+export class HomeComponent implements OnInit {
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
+}
