@@ -1,0 +1,68 @@
+import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { selectPieChartValue } from '../../../shared/+store/selectors/shared-feature.selectors'
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { Store } from '@ngrx/store'
+import { debounceTime } from 'rxjs'
+import { changePieChartValue } from '../../../shared/+store/actions/shared-feature.actions'
+import { AsyncPipe } from '@angular/common'
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input'
+import { MatCard } from '@angular/material/card'
+
+@Component({
+  selector: 'app-pie-chart',
+  imports: [
+    AsyncPipe,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatCard,
+    MatInput,
+  ],
+  templateUrl: './pie-chart.component.html',
+  styleUrl: './pie-chart.component.scss',
+  standalone: true,
+})
+export class PieChartComponent implements OnInit, AfterViewInit {
+  protected percentageVariable$ = this.store.select(selectPieChartValue)
+  protected colorVariable: string = 'orange'
+  
+  public pieFormGroup!: FormGroup
+  
+  constructor(private store: Store) {
+  }
+  
+  ngOnInit(): void {
+    this.pieFormGroup = this.initFormGroup()
+    this.percentageVariable$.subscribe(
+    (inputValue) =>
+        this.pieFormGroup.get('percentageInput')?.setValue(inputValue),
+    )
+  }
+  
+  private initFormGroup() {
+    return new FormGroup({
+      percentageInput: new FormControl(),
+    })
+  }
+  
+  private setFormGroupListeners() {
+    this.pieFormGroup
+      .get('percentageInput')
+      ?.valueChanges.pipe(debounceTime(100))
+      .subscribe((inputValue) => {
+        const inputNumber = Number(inputValue)
+        if (inputNumber && inputNumber <= 100 && inputNumber >= 0) {
+          this.store.dispatch(
+              changePieChartValue({ pieChartValue: inputNumber }),
+          )
+        } else {
+          changePieChartValue({ pieChartValue: 0 })
+        }
+      })
+  }
+  
+  ngAfterViewInit(): void {
+    this.setFormGroupListeners()
+  }
+}

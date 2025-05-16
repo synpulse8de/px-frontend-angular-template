@@ -1,0 +1,31 @@
+import { Component, OnInit } from '@angular/core'
+import { ExampleModule1Service } from '../../services/example-module-1.service'
+{% if material -%}
+import { RouterLink } from '@angular/router'
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card'
+{%- endif %}
+
+
+@Component({
+  selector: 'app-pie-chart-showcase',
+  {% if material -%}
+  imports: [
+    RouterLink,
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+  ],
+  {%- endif %}
+  templateUrl: './pie-chart-showcase.component.html',
+  styleUrls: ['./pie-chart-showcase.component.scss'],
+  standalone: {% if material -%}true{%- endif -%}{%- if not material -%}false{%- endif -%},
+})
+export class PieChartShowcaseComponent implements OnInit {
+  pieChartValue = 0
+
+  constructor(private exampleModule1Service: ExampleModule1Service) {}
+
+  ngOnInit(): void {
+    this.pieChartValue = this.exampleModule1Service.pieChartValue
+  }
+}

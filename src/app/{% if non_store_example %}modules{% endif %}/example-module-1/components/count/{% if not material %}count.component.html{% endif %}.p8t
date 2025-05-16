@@ -1,0 +1,23 @@
+<div class="card">
+  <h3>Basic Count Feature</h3>
+  <p>
+    open your development console to see what is happening when you press the buttons
+  </p>
+  <p data-cy="count">Count: {% raw %}{{ count }}{% endraw %}</p>
+  <div class="d-flex">
+    <button
+      data-cy="increment-button"
+      class="button success me-2"
+      (click)="onIncrement()"
+    >
+      Increment
+    </button>
+    <button
+      data-cy="decrement-button"
+      class="button warn"
+      (click)="onDecrement()"
+    >
+      Decrement
+    </button>
+  </div>
+</div>

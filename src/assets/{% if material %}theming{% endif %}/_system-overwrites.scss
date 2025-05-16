@@ -1,0 +1,9 @@
+// System-variables can be overwritten here. Make sure to add them to both, the light and dark theme, in the theme file
+
+$on-surface: light-dark(#2F353A, #FFF);
+
+$skeleton-base:      light-dark( #f0f0f0 , #0f0f0f );
+$skeleton-highlight: light-dark( #e0e0e0 , #1f1f1f );
+
+// BUTTONS
+$corner-full: .25rem;

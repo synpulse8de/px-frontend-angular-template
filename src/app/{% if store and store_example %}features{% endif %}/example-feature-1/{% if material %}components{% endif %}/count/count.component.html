@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-header>
+    <h3>Basic Count Feature</h3>
+  </mat-card-header>
+  <mat-card-content>
+
+    <p>
+      install the Redux dev-tools and open your development console to see what is
+      happening when you press the buttons
+    </p>
+    <p data-cy="count">Count: {{ count$ | async }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="d-flex">
+      <button
+        mat-flat-button
+        data-cy="increment-button"
+        class="me-2"
+        (click)="onIncrement()"
+      >
+        Increment
+      </button>
+      <button
+        mat-flat-button
+        data-cy="decrement-button"
+        class="error"
+        (click)="onDecrement()"
+      >
+        Decrement
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,100 @@
+import { ComponentFixture, TestBed{%- if auth -%}, fakeAsync, tick{%- endif -%}} from '@angular/core/testing'
+import { HeaderComponent } from './header.component'
+import { provideRouter } from '@angular/router'
+{% if auth -%}
+import { MatMenuHarness } from '@angular/material/menu/testing'
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
+import { HarnessLoader } from '@angular/cdk/testing'
+import { KeycloakService } from 'keycloak-angular'
+import { LoginService } from '../../services/login.service'
+
+class MockKeycloakService {
+  authenticated = false
+
+  getKeycloakInstance() {
+    return {
+      authenticated: this.authenticated,
+      loadUserProfile: () => new Promise(resolve => resolve({ firstName: 'John', lastName: 'Doe' })),
+      logout: () => {
+      },
+    }
+  }
+}
+
+class MockLoginService {
+  login() {
+  }
+}
+{%- endif %}
+
+describe('HeaderComponent', () => {
+  let component: HeaderComponent
+  let fixture: ComponentFixture<HeaderComponent>
+  {% if auth -%}
+  let loader: HarnessLoader
+  let keycloakService: MockKeycloakService
+  {%- endif %}
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HeaderComponent],
+      declarations: [],
+      providers: [
+        {% if auth -%}
+        { provide: KeycloakService, useClass: MockKeycloakService },
+        { provide: LoginService, useClass: MockLoginService },
+        {%- endif %}
+        provideRouter([])
+      ],
+    }).compileComponents()
+
+    fixture = TestBed.createComponent(HeaderComponent)
+    component = fixture.componentInstance
+    {% if auth -%}
+    loader  = TestbedHarnessEnvironment.loader(fixture);
+    keycloakService = TestBed.inject(KeycloakService) as unknown as MockKeycloakService
+    {%- endif %}
+    fixture.detectChanges()
+  })
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+
+  {% if auth -%}
+  describe('user authentication', () => {
+    it('should show the login button when user is not authenticated', () => {
+      keycloakService.authenticated = false
+      fixture.detectChanges()
+
+      const signInButton = fixture.nativeElement.querySelector('[data-cy="login-button"] > .mdc-button__label')
+      expect(signInButton).toBeTruthy()
+      expect(signInButton.textContent).toContain('Sign in')
+    })
+
+    it('should show the logout button and username when user is authenticated', fakeAsync(async() => {
+      keycloakService.authenticated = true
+      component.ngOnInit()
+      tick()
+      fixture.detectChanges()
+
+      const greetingText = fixture.nativeElement.querySelector('[data-cy="greeting"]')
+
+      expect(greetingText).toBeTruthy()
+      expect(greetingText.textContent).toContain('Hi John Doe !')
+
+      const menu = await loader.getHarness(
+        MatMenuHarness
+      );
+      expect(await menu.isOpen()).toBe(false);
+      await menu.open();
+      expect(await menu.isOpen()).toBe(true);
+
+      const items = await menu.getItems();
+      const labels = await Promise.all(items.map(i => i.getText()));
+
+      expect(labels).toContain('Sign out');
+    }))
+  })
+  {%- endif %}
+})

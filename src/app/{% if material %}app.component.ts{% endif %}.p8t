@@ -1,0 +1,16 @@
+import { Component } from '@angular/core'
+{% if store_example or non_store_example -%}
+import { HeaderComponent } from './shared/components/header/header.component'
+{% endif %}
+import { RouterOutlet } from '@angular/router'
+
+@Component({
+  selector: 'app-root',
+  imports: [{%- if store_example or non_store_example -%}HeaderComponent,{%- endif %} RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+})
+export class AppComponent {
+  title = '{{ project_name }}'
+}

@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <h3>Basic Showcase Feature</h3>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      Here we can see the change value from the
+      <a routerLink="/home">home</a> tab. Everything we do in the shared slice of
+      the state will be available from everywhere inside the application
+    </p>
+    <p>
+      <b data-cy="piechart-value"
+      >Pie Chart Value: {{ pieChartValue$ | async }}</b
+      >
+    </p>
+  </mat-card-content>
+</mat-card>

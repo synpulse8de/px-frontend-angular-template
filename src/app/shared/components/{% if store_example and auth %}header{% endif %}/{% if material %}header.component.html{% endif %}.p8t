@@ -1,0 +1,29 @@
+<mat-toolbar>
+  <div class="d-flex flex-grow-1 justify-content-between">
+    <div data-cy="navBar">
+      <button mat-button routerLink="/home" data-cy="navTab1" aria-label="Example icon-button with menu icon">
+        Home
+      </button>
+      <button class="me-3" mat-button routerLink="/lazy-zone/lazy_1" data-cy="navTab2"
+              aria-label="Example icon-button with menu icon">
+        Example Module
+      </button>
+      <mat-slide-toggle (change)="sliderChange($event)" [checked]="isDark">Darkmode</mat-slide-toggle>
+    </div>
+    <div class="d-flex align-items-center">
+      <button data-cy="login-button" mat-raised-button *ngIf="!isLoggedIn(); else loggedIn"
+              (click)="login()">Sign in
+      </button>
+    </div>
+    <ng-template #loggedIn>
+      <span class="me-3" data-cy="greeting" > Hi {% raw %}{{ getUser() }}{% endraw %} </span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Profile</button>
+        <button mat-menu-item (click)="logout()">Sign out</button>
+      </mat-menu>
+    </ng-template>
+  </div>
+</mat-toolbar>

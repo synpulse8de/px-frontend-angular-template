@@ -95,7 +95,7 @@ describe('SharedFeatureEffects', () => {
      * Test to confirm if the effect returns a success action with the loaded data when successful.
      */
     it('should return loadSharedFeaturesSuccess', () => {
-      const data = {} // whatever your mocked data is
+      const data = {}
       const action = SharedFeatureActions.loadSharedFeatures()
       actions$ = of(action)
 

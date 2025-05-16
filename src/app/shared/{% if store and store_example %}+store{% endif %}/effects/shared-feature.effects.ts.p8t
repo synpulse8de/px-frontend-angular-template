@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, concatMap, map } from 'rxjs/operators'
-import { EMPTY, {% if auth -%}from,{%- endif -%} of } from 'rxjs'
+import { EMPTY, {% if auth -%}defer, from,{%- endif -%} of } from 'rxjs'
 import {
 {% if auth -%}
   checkLoginStateActions,
@@ -34,24 +34,26 @@ export class SharedFeatureEffects {
   })
 
 {% if auth -%}
-  checkKeycloakLogin$ = createEffect(() => {
-    return this.actions$.pipe(
+  checkKeycloakLogin$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(checkLoginStateActions.checkKeycloakLoginState),
       concatMap(() =>
-        from(of(this.keycloakService.isLoggedIn())).pipe(
+        defer(() => {
+          // This function runs _inside_ the Observable subscribe,
+          // so any throwError from the spy will get caught below.
+          const loggedIn = this.keycloakService.isLoggedIn();
+          return of(loggedIn);
+        }).pipe(
           map((loggedIn: boolean) =>
             checkLoginStateActions.checkKeycloakLoginStateSuccess({ loggedIn })
           ),
-          catchError((error) => {
-            console.log(error)
-            return of(
-              checkLoginStateActions.checkKeycloakLoginStateFailure({ error })
-            )
-          })
+          catchError((error) =>
+            of(checkLoginStateActions.checkKeycloakLoginStateFailure({ error }))
+          )
         )
       )
     )
-  })
+  );
 
   setKeycloakUser$ = createEffect(() => {
     return this.actions$.pipe(

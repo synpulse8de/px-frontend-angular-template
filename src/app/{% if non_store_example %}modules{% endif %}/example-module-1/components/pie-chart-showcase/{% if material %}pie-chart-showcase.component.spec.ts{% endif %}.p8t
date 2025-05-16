@@ -1,0 +1,23 @@
+import { PieChartShowcaseComponent } from './pie-chart-showcase.component'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { provideRouter } from '@angular/router'
+
+describe('PieChartShowcaseComponent', () => {
+  let component: PieChartShowcaseComponent
+  let fixture: ComponentFixture<PieChartShowcaseComponent>
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [PieChartShowcaseComponent],
+      declarations: [],
+      providers: [provideRouter([])]
+    })
+    fixture = TestBed.createComponent(PieChartShowcaseComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+})

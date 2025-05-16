@@ -1,0 +1,23 @@
+import { Component } from '@angular/core'
+
+{% if material -%}
+import { MyCustomersComponent } from '../../components/my-customers/my-customers.component'
+import { CountComponent } from '../../components/count/count.component'
+import { PieChartShowcaseComponent } from '../../components/pie-chart-showcase/pie-chart-showcase.component'
+{%- endif %}
+
+@Component({
+  selector: 'app-ex1-base-page',
+  {% if material -%}
+  imports: [
+    MyCustomersComponent,
+    CountComponent,
+    PieChartShowcaseComponent,
+  ],
+  {%- endif %}
+  templateUrl: './ex1-base-page.component.html',
+  styleUrls: ['./ex1-base-page.component.scss'],
+  standalone: {% if material -%}true{%- endif -%}{%- if not material -%}false{%- endif -%},
+})
+export class Ex1BasePageComponent {
+}

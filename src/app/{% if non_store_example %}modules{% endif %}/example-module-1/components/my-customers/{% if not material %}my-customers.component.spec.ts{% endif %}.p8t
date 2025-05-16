@@ -1,0 +1,26 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { MyCustomersComponent } from './my-customers.component'
+import { ENV_CONFIG } from '../../../../../assets/utils/p8env'
+import { ReactiveFormsModule } from '@angular/forms'
+
+describe('MyCustomersComponent', () => {
+  let component: MyCustomersComponent
+  let fixture: ComponentFixture<MyCustomersComponent>
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
+      declarations: [MyCustomersComponent],
+      providers: [
+        { provide: ENV_CONFIG, useValue: {} },
+      ],
+    })
+    fixture = TestBed.createComponent(MyCustomersComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+})

@@ -1,0 +1,23 @@
+<div class="d-flex flex-column">
+  <h3 *ngIf="!(loggedIn$ | async); else signedIn">
+    Hi, welcome to the Pulse8 core angular template. Please sign in to see your custom Dashboard.
+  </h3>
+  <ng-template #signedIn>
+    <h1>
+      Hi {{ (currentUser$ | async)?.firstName }}&nbsp;{{
+        (currentUser$ | async)?.lastName
+      }}
+    </h1>
+  </ng-template>
+  <div class="d-flex row" [hidden]="!(loggedIn$ | async)">
+    <p>
+      This is the content that gets displayed after successful login. This can
+      be anything. For a more comprehensive example with the ngrx store
+      implementation visit the <b>example module</b> tab!
+
+    </p>
+    <app-pie-chart
+      class="d-flex col-lg-4 col-md-6 col-sm-12 mb-3"
+    ></app-pie-chart>
+  </div>
+</div>

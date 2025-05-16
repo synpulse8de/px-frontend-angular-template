@@ -1,0 +1,21 @@
+import { CountComponent } from './count.component'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+
+describe('CountComponent', () => {
+  let component: CountComponent
+  let fixture: ComponentFixture<CountComponent>
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CountComponent],
+      declarations: [],
+    })
+    fixture = TestBed.createComponent(CountComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+})

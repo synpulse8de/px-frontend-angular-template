@@ -1,10 +1,11 @@
 <div class="row d-flex flex-grow-1 flex-wrap">
   <app-my-customers class="col-md-8 col-sm-12 mb-3"></app-my-customers>
-  <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
-    <app-count data-cy="count-component" class="d-flex mb-3"></app-count>
+  <div class="d-flex flex-column flex-grow-1 col-lg-3 col-md-4 col-sm-12 mb-3">
+
+    <app-count data-cy="count-component" class="d-flex flex-grow-1 mb-3"></app-count>
     <app-pie-chart-showcase
             data-cy="piechart-component"
-            class="d-flex"
+            class="d-flex flex-grow-1"
     ></app-pie-chart-showcase>
   </div>
 </div>
